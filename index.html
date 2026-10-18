@@ -1,6 +1,25 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <style>
+  /* This creates a flexible grid for your images */
+  .my-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* This makes all the images the same size with nice rounded corners */
+  .my-gallery img {
+    width: 250px; 
+    height: 250px;
+    object-fit: cover; /* Keeps images from stretching weirdly */
+    border-radius: 10px; /* Gives rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Adds a small shadow */
+  }
+</style>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Mahmud Arifin — Photographer and videographer." />
@@ -11,6 +30,14 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="my-gallery">
+  <!-- Replace the 'src' link with the actual names of your files -->
+  <img src="test1.webp" loading="lazy" alt="My work 1">
+  <img src="test2.webp" loading="lazy" alt="My work 2">
+  <img src="test3.webp" loading="lazy" alt="My work 3">
+  <img src="test4.webp" loading="lazy" alt="My work 4">
+  <img src="test5.webp" loading="lazy" alt="My work 5">
+</div>
     <div class="cursor-glow" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
 
