@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mahmud Arifin — Photographer and videographer." />
+    <title>Mahmud Arifin — Visual Stories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="wordmark" href="#top" aria-label="Mahmud Arifin, home">MA<span>•</span>AR</a>
+      <p class="location">BASED IN DHAKA <span>·</span> AVAILABLE WORLDWIDE</p>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="menu-panel">
+        <span>MENU</span><i></i>
+      </button>
+    </header>
+
+    <nav class="menu-panel" id="menu-panel" aria-label="Primary navigation">
+      <a href="#memories">Memories <em>01</em></a>
+      <a href="#photographs">Photographs <em>02</em></a>
+      <a href="#films">Videography <em>03</em></a>
+      <a href="#contact">Contact <em>04</em></a>
+    </nav>
+
+    <main id="top">
+      <section class="hero" aria-label="Introduction">
+        <div class="hero-image" role="img" aria-label="Silhouette of a person overlooking a lake at sunset" style="background-image: url('PXL_20251226_012659829.RAW-01.COVER.jpg');"></div>
+        <div class="hero-copy">
+          <p class="eyebrow reveal">PHOTOGRAPHER · VIDEOGRAPHER</p>
+          <h1><span class="reveal">Moments,</span> <i class="reveal">made</i><br /><span class="reveal">to stay.</span></h1>
+        </div>
+        <a class="scroll-cue" href="#memories"><span></span> EXPLORE THE WORK</a>
+        <p class="hero-index">01 — 04</p>
+      </section>
+
+      <section class="intro section-pad">
+        <p class="section-label">( A NOTE )</p>
+        <div class="intro-text">
+          <p>I make images for the feeling that returns <em>long after</em> the moment has gone.</p>
+          <a class="text-link" href="#contact">MORE ABOUT ME <span>↗</span></a>
+        </div>
+      </section>
+
+      <section class="memories section-pad" id="memories">
+        <div class="section-heading">
+          <p class="section-label">( 01 — PERSONAL )</p>
+          <h2>Memories<span>.</span></h2>
+          <p>Small fragments of a life, kept close.</p>
+        </div>
+        <div class="memory-layout">
+          <figure class="memory-image image-card image-one"><img src="retouch_2025101914422346.jpg" alt="A tent beneath a moonlit mountain sky" /></figure>
+          <p class="memory-caption">The kind of days<br />you never plan.</p>
+          <figure class="memory-image image-card image-two"><img src="retouch_2025090420010142.jpg" alt="Friends laughing together outside" /></figure>
+          <p class="memory-number">01<br /><span>/ 06</span></p>
+        </div>
+        <a class="round-link" href="#photographs"><span>OPEN<br />MEMORIES</span><b>↘</b></a>
+      </section>
+
+      <section class="photographs section-pad" id="photographs">
+        <div class="section-heading light-heading">
+          <p class="section-label">( 02 — SELECTED WORK )</p>
+          <h2>Photographs<span>.</span></h2>
+          <p>Light, space, and the people within it.</p>
+        </div>
+        <div class="photo-grid">
+          <a href="#contact" class="project project-large">
+            <img src="PXL_20251118_123319224.NIGHT.RAW-02.ORIGINAL (1).jpg" alt="Couple on their wedding day" />
+            <span class="project-meta"><b>Weddings</b><em>VIEW SERIES ↗</em></span>
+          </a>
+          <a href="#contact" class="project project-tall">
+            <img src="retouch_2025090220123497.jpg" alt="Friends holding sparklers at night" />
+            <span class="project-meta"><b>Portraits</b><em>VIEW SERIES ↗</em></span>
+          </a>
+          <a href="#contact" class="project project-wide">
+            <img src="retouch_2025080811315320.jpg" alt="Quiet ocean shoreline at sunset" />
+            <span class="project-meta"><b>Elsewhere</b><em>VIEW SERIES ↗</em></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="film" id="films">
+        <div class="film-backdrop" style="background-image: url('PXL_20250707_132048236.RAW-01.COVER.jpg');"></div>
+        <div class="film-content">
+          <p class="section-label">( 03 — MOVING IMAGE )</p>
+          <p class="film-kicker">A collection of stories in motion.</p>
+          <h2>Films<br /><i>with feeling.</i></h2>
+          <button class="play-button" type="button" data-video-title="Reel 2025" aria-label="Play showreel"><span>PLAY<br />REEL</span><b>▶</b></button>
+        </div>
+        <p class="film-credit">SHOWREEL / 02:16</p>
+      </section>
+
+      <section class="contact section-pad" id="contact">
+        <p class="section-label">( LET'S WORK TOGETHER )</p>
+        <h2>Have a story<br />worth <i>keeping?</i></h2>
+        <a class="contact-email" href="mailto:hello@mahmudarifin.com">hello@mahmudarifin.com <span>↗</span></a>
+        <div class="footer-row">
+          <p>© <span id="year"></span> MAHMUD ARIFIN</p>
+          <div><a href="#top">INSTAGRAM</a><a href="#top">VIMEO</a></div>
+          <a href="#top">BACK TO TOP ↑</a>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="reel-modal" id="reel-modal">
+      <button class="modal-close" type="button" aria-label="Close showreel">×</button>
+      <div class="modal-placeholder"><span>SHOWREEL</span><p>Add your Vimeo, YouTube, or self-hosted film embed here.</p></div>
+    </dialog>
+    <script src="script.js"></script>
+  </body>
+</html>
