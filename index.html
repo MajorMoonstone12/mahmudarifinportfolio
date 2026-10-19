@@ -101,7 +101,7 @@
         inset: 0;
         background: rgba(8, 8, 8, 0.94);
         backdrop-filter: blur(10px);
-        z-index: 9999;
+        z-index: 10500;
         display: none;
         flex-direction: column;
         align-items: center;
@@ -156,7 +156,73 @@
         cursor: pointer;
       }
 
-      /* Quick Explore Floating Trigger & Walk Modal */
+      /* Entry Welcome Popup */
+      .entry-popup-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.78);
+        backdrop-filter: blur(8px);
+        z-index: 9500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem;
+      }
+      .entry-popup-backdrop.hidden {
+        display: none;
+      }
+      .entry-popup-card {
+        background: #fff;
+        color: #0b0b0b;
+        max-width: 400px;
+        width: 100%;
+        border-radius: 20px;
+        padding: 2rem 1.75rem;
+        text-align: center;
+        border: 3px solid #000;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+        font-family: 'Manrope', sans-serif;
+      }
+      .entry-popup-card h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.75rem;
+        margin: 0.5rem 0 0.75rem;
+      }
+      .entry-popup-card p {
+        font-size: 0.92rem;
+        color: #333;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
+      .entry-popup-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+      .entry-btn-primary {
+        background: #0b0b0b;
+        color: #fff;
+        border: 2px solid #0b0b0b;
+        padding: 0.85rem 1.2rem;
+        border-radius: 999px;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        cursor: pointer;
+      }
+      .entry-btn-secondary {
+        background: transparent;
+        color: #444;
+        border: 1px solid #ccc;
+        padding: 0.7rem 1.2rem;
+        border-radius: 999px;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.75rem;
+        cursor: pointer;
+      }
+
+      /* Floating Quick Explore Trigger & Walk Modal */
       .quick-explore-pill {
         position: fixed;
         bottom: 1.5rem;
@@ -181,8 +247,8 @@
         position: fixed;
         inset: 0;
         z-index: 10000;
-        background: #fff;
-        color: #000;
+        background: rgba(10, 10, 10, 0.92);
+        backdrop-filter: blur(8px);
         display: none;
         flex-direction: column;
         align-items: center;
@@ -197,25 +263,65 @@
       .walk-canvas-wrap {
         position: relative;
         width: min(420px, 94vw);
-        height: min(740px, 88vh);
+        height: min(740px, 86vh);
         border: 3px solid #000;
-        border-radius: 18px;
+        border-radius: 20px;
         overflow: hidden;
         background: #fff;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
       }
-      .walk-close {
+      #walk-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        cursor: pointer;
+      }
+      .walk-top-bar {
         position: absolute;
         top: 12px;
+        left: 12px;
         right: 12px;
         z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        pointer-events: none;
+      }
+      .walk-ui-btn {
+        pointer-events: auto;
         background: #000;
         color: #fff;
         border: 2px solid #fff;
         border-radius: 999px;
-        padding: 0.35rem 0.85rem;
+        padding: 0.4rem 0.85rem;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.7rem;
+        cursor: pointer;
+      }
+      .walk-ui-btn.active {
+        background: #fff;
+        color: #000;
+        border-color: #000;
+      }
+      .walk-Inspect-btn {
+        position: absolute;
+        bottom: 64px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 12;
+        background: #000;
+        color: #fff;
+        border: 2px solid #fff;
+        border-radius: 999px;
+        padding: 0.5rem 1.1rem;
         font-family: 'DM Mono', monospace;
         font-size: 0.72rem;
         cursor: pointer;
+        display: none;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      }
+      .walk-Inspect-btn.show {
+        display: block;
       }
     </style>
   </head>
@@ -260,7 +366,7 @@
         </div>
       </section>
 
-      <!-- 01: MEMORIES (EXISTING BUILT-IN GRID) -->
+      <!-- 01: MEMORIES -->
       <section class="memories section-pad" id="memories">
         <div class="section-heading">
           <p class="section-label">( 01 — PERSONAL )</p>
@@ -280,7 +386,7 @@
         <a class="round-link" href="#photographs"><span>SELECTED<br />SERIES</span><b>↘</b></a>
       </section>
 
-      <!-- 02: SELECTED WORK (EXISTING BUILT-IN GRID — WEDDINGS/EVENTS REMOVED) -->
+      <!-- 02: SELECTED WORK (WEDDINGS/EVENTS REMOVED) -->
       <section class="photographs section-pad" id="photographs">
         <div class="section-heading light-heading">
           <p class="section-label">( 02 — SELECTED WORK )</p>
@@ -294,6 +400,99 @@
           </a>
           <a href="#collection" data-JumpFilter="portraits" class="project project-tall">
             <img src="retouch_2025090220123497.webp" alt="Expressive portrait at dusk" />
+            <span class="project-meta"><b>Portraits</b><em>VIEW SERIES ↗</em></span>
+          </a>
+          <a href="#collection" data-JumpFilter="elsewhere" class="project project-wide">
+            <img src="retouch_2025080811315320.webp" alt="Quiet ocean shoreline at sunset" />
+            <span class="project-meta"><b>Elsewhere</b><em>VIEW SERIES ↗</em></span>
+          </a>
+        </div>
+      </section>
+
+      <!-- 03: FULL CATEGORIZED COLLECTION (ALL 99 WEBP IMAGES) -->
+      <section class="collection-section section-pad" id="collection">
+        <div class="section-heading light-heading">
+          <p class="section-label">( 03 — VISUAL ARCHIVE )</p>
+          <h2>The Collection<span>.</span></h2>
+          <p>99 curated frames categorized by light, mood, and perspective. Click any image to view in original quality.</p>
+        </div>
+
+        <div class="collection-controls" role="tablist" aria-label="Photograph categories">
+          <button class="filter-btn active" data-filter="all" type="button">All Works (99)</button>
+          <button class="filter-btn" data-filter="portraits" type="button">Portraits (9)</button>
+          <button class="filter-btn" data-filter="night-motion" type="button">Nocturne &amp; Motion (9)</button>
+          <button class="filter-btn" data-filter="retouch" type="button">Fine Retouch (28)</button>
+          <button class="filter-btn" data-filter="raw-frames" type="button">Raw Chronicles (26)</button>
+          <button class="filter-btn" data-filter="elsewhere" type="button">Elsewhere &amp; Travel (27)</button>
+        </div>
+
+        <div class="archive-grid" id="archive-grid">
+          <!-- CATEGORY 1: PORTRAITS (9) -->
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20250819_050828741.PORTRAIT.webp" loading="lazy" alt="Portrait study 01" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260730_123449051.PORTRAIT.ORIGINAL (1).webp" loading="lazy" alt="Portrait study 02" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260804_100601289.PORTRAIT (1).webp" loading="lazy" alt="Portrait study 03" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260807_113127829.PORTRAIT.ORIGINAL (1).webp" loading="lazy" alt="Portrait study 04" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260826_100451743.PORTRAIT.ORIGINAL.webp" loading="lazy" alt="Portrait study 05" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260923_094245489.PORTRAIT (1).webp" loading="lazy" alt="Portrait study 06" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260923_094248973.PORTRAIT (1).webp" loading="lazy" alt="Portrait study 07" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20261006_104307962.PORTRAIT.webp" loading="lazy" alt="Portrait study 08" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20261013_111151400.PORTRAIT.ORIGINAL.webp" loading="lazy" alt="Portrait study 09" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+
+          <!-- CATEGORY 2: NOCTURNE & MOTION (9) -->
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="IMG_StarTrails_20251215020948.webp" loading="lazy" alt="Star trails in the night sky" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20250904_125939465.NIGHT.RAW-01.COVER.webp" loading="lazy" alt="Night cover frame" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20251118_123319224.NIGHT.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Night original study" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20260914_133027207.NIGHT.RAW-02.ORIGINAL.webp" loading="lazy" alt="Evening shadows" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20261002_191404275.NIGHT (1).webp" loading="lazy" alt="City night atmosphere" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20260806_120708925.ACTION_PAN-02.ORIGINAL (1).webp" loading="lazy" alt="Action pan motion study 01" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20260831_123258933.ACTION_PAN-01.COVER.webp" loading="lazy" alt="Action pan motion study 02" />
+            <figcaption class="archive-overlay"><sp     <img src="retouch_2025090220123497.webp" alt="Expressive portrait at dusk" />
             <span class="project-meta"><b>Portraits</b><em>VIEW SERIES ↗</em></span>
           </a>
           <a href="#collection" data-JumpFilter="elsewhere" class="project project-wide">
