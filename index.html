@@ -9,6 +9,215 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Collection Archive & Filter Styles */
+      .collection-section {
+        background: #0b0b0b;
+        color: #f5f3ef;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .collection-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin: 2rem 0 2.5rem;
+      }
+      .filter-btn {
+        background: transparent;
+        color: rgba(245, 243, 239, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        padding: 0.55rem 1.1rem;
+        border-radius: 999px;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: #f5f3ef;
+        color: #0b0b0b;
+        border-color: #f5f3ef;
+      }
+      .archive-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.25rem;
+      }
+      .archive-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #161616;
+        aspect-ratio: 4 / 5;
+        cursor: pointer;
+        margin: 0;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .archive-card.hidden {
+        display: none;
+      }
+      .archive-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .archive-card:hover img {
+        transform: scale(1.05);
+      }
+      .archive-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, transparent 55%);
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 1rem;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.72rem;
+        color: #fff;
+      }
+      .archive-card:hover .archive-overlay {
+        opacity: 1;
+      }
+      .archive-tag {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(4px);
+        padding: 0.25rem 0.55rem;
+        border-radius: 4px;
+      }
+
+      /* Lightbox Modal for Original Quality Drive Link */
+      .lightbox-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 8, 8, 0.94);
+        backdrop-filter: blur(10px);
+        z-index: 9999;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+      .lightbox-modal.open {
+        display: flex;
+      }
+      .lightbox-modal img {
+        max-width: 90vw;
+        max-height: 75vh;
+        object-fit: contain;
+        border-radius: 6px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      }
+      .lightbox-bar {
+        margin-top: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.8rem;
+        color: #f5f3ef;
+      }
+      .drive-btn {
+        background: #f5f3ef;
+        color: #0b0b0b;
+        text-decoration: none;
+        padding: 0.65rem 1.25rem;
+        border-radius: 999px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        transition: transform 0.2s ease;
+      }
+      .drive-btn:hover {
+        transform: translateY(-2px);
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+
+      /* Quick Explore Floating Trigger & Walk Modal */
+      .quick-explore-pill {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 900;
+        background: #f5f3ef;
+        color: #0b0b0b;
+        border: 2px solid #0b0b0b;
+        padding: 0.7rem 1.2rem;
+        border-radius: 999px;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .walk-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: #fff;
+        color: #000;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: none;
+      }
+      .walk-modal.open {
+        display: flex;
+      }
+      .walk-canvas-wrap {
+        position: relative;
+        width: min(420px, 94vw);
+        height: min(740px, 88vh);
+        border: 3px solid #000;
+        border-radius: 18px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .walk-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 10;
+        background: #000;
+        color: #fff;
+        border: 2px solid #fff;
+        border-radius: 999px;
+        padding: 0.35rem 0.85rem;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.72rem;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -24,30 +233,34 @@
 
     <nav class="menu-panel" id="menu-panel" aria-label="Primary navigation">
       <a href="#memories">Memories <em>01</em></a>
-      <a href="#photographs">Photographs <em>02</em></a>
-      <a href="#films">Videography <em>03</em></a>
-      <a href="#contact">Contact <em>04</em></a>
+      <a href="#photographs">Selected Work <em>02</em></a>
+      <a href="#collection">Full Archive (99) <em>03</em></a>
+      <a href="#films">Videography <em>04</em></a>
+      <a href="#contact">Contact <em>05</em></a>
     </nav>
 
     <main id="top">
+      <!-- HERO SECTION -->
       <section class="hero" aria-label="Introduction">
-        <div class="hero-image" role="img" aria-label="Silhouette of a person overlooking a lake at sunset" style="background-image: url('PXL_20251226_012659829.RAW-01.COVER.jpg');"></div>
+        <div class="hero-image" role="img" aria-label="Silhouette of a person overlooking a lake at sunset" style="background-image: url('PXL_20251226_012659829.RAW-01.COVER.webp');"></div>
         <div class="hero-copy">
           <p class="eyebrow reveal">PHOTOGRAPHER · VIDEOGRAPHER</p>
           <h1><span class="reveal">Moments,</span> <i class="reveal">made</i><br /><span class="reveal">to stay.</span></h1>
         </div>
         <a class="scroll-cue" href="#memories"><span></span> EXPLORE THE WORK</a>
-        <p class="hero-index">01 — 04</p>
+        <p class="hero-index">01 — 05</p>
       </section>
 
+      <!-- INTRO NOTE -->
       <section class="intro section-pad">
         <p class="section-label">( A NOTE )</p>
         <div class="intro-text">
           <p>I make images for the feeling that returns <em>long after</em> the moment has gone.</p>
-          <a class="text-link" href="#contact">MORE ABOUT ME <span>↗</span></a>
+          <a class="text-link" href="#collection">BROWSE ALL 99 FRAMES <span>↗</span></a>
         </div>
       </section>
 
+      <!-- 01: MEMORIES (EXISTING BUILT-IN GRID) -->
       <section class="memories section-pad" id="memories">
         <div class="section-heading">
           <p class="section-label">( 01 — PERSONAL )</p>
@@ -55,47 +268,480 @@
           <p>Small fragments of a life, kept close.</p>
         </div>
         <div class="memory-layout">
-          <figure class="memory-image image-card image-one"><img src="1.webp" alt="A tent beneath a moonlit mountain sky" /></figure>
+          <figure class="memory-image image-card image-one">
+            <img src="retouch_2025101914422346.webp" alt="Quiet night under the open sky" />
+          </figure>
           <p class="memory-caption">The kind of days<br />you never plan.</p>
-          <figure class="memory-image image-card image-two"><img src="2.webp" alt="Friends laughing together outside" /></figure>
-          <p class="memory-number">01<br /><span>/ 06</span></p>
+          <figure class="memory-image image-card image-two">
+            <img src="retouch_2025090420010142.webp" alt="Candid moment with friends" />
+          </figure>
+          <p class="memory-number">01<br /><span>/ 05</span></p>
         </div>
-        <a class="round-link" href="#photographs"><span>OPEN<br />MEMORIES</span><b>↘</b></a>
+        <a class="round-link" href="#photographs"><span>SELECTED<br />SERIES</span><b>↘</b></a>
       </section>
 
+      <!-- 02: SELECTED WORK (EXISTING BUILT-IN GRID — WEDDINGS/EVENTS REMOVED) -->
       <section class="photographs section-pad" id="photographs">
         <div class="section-heading light-heading">
           <p class="section-label">( 02 — SELECTED WORK )</p>
           <h2>Photographs<span>.</span></h2>
-          <p>Light, space, and the people within it.</p>
+          <p>Light, space, and the quiet stories within it.</p>
         </div>
         <div class="photo-grid">
-          <a href="#contact" class="project project-large">
-            <img src="3.webp" alt="Couple on their wedding day" />
-            <span class="project-meta"><b>Weddings</b><em>VIEW SERIES ↗</em></span>
+          <a href="#collection" data-JumpFilter="night-motion" class="project project-large">
+            <img src="PXL_20251118_123319224.NIGHT.RAW-02.ORIGINAL (1).webp" alt="Night sky and atmospheric light" />
+            <span class="project-meta"><b>Nocturne &amp; Motion</b><em>VIEW SERIES ↗</em></span>
           </a>
-          <a href="#contact" class="project project-tall">
-            <img src="4.webp" alt="Friends holding sparklers at night" />
+          <a href="#collection" data-JumpFilter="portraits" class="project project-tall">
+            <img src="retouch_2025090220123497.webp" alt="Expressive portrait at dusk" />
             <span class="project-meta"><b>Portraits</b><em>VIEW SERIES ↗</em></span>
           </a>
-          <a href="#contact" class="project project-wide">
-            <img src="5.webp" alt="Quiet ocean shoreline at sunset" />
+          <a href="#collection" data-JumpFilter="elsewhere" class="project project-wide">
+            <img src="retouch_2025080811315320.webp" alt="Quiet ocean shoreline at sunset" />
             <span class="project-meta"><b>Elsewhere</b><em>VIEW SERIES ↗</em></span>
           </a>
         </div>
       </section>
 
+      <!-- 03: FULL CATEGORIZED COLLECTION (ALL 99 WEBP IMAGES) -->
+      <section class="collection-section section-pad" id="collection">
+        <div class="section-heading light-heading">
+          <p class="section-label">( 03 — VISUAL ARCHIVE )</p>
+          <h2>The Collection<span>.</span></h2>
+          <p>99 curated frames categorized by light, mood, and perspective. Click any image to view in original quality.</p>
+        </div>
+
+        <div class="collection-controls" role="tablist" aria-label="Photograph categories">
+          <button class="filter-btn active" data-filter="all" type="button">All Works (99)</button>
+          <button class="filter-btn" data-filter="portraits" type="button">Portraits (9)</button>
+          <button class="filter-btn" data-filter="night-motion" type="button">Nocturne &amp; Motion (9)</button>
+          <button class="filter-btn" data-filter="retouch" type="button">Fine Retouch (28)</button>
+          <button class="filter-btn" data-filter="raw-frames" type="button">Raw Chronicles (26)</button>
+          <button class="filter-btn" data-filter="elsewhere" type="button">Elsewhere &amp; Travel (27)</button>
+        </div>
+
+        <div class="archive-grid" id="archive-grid">
+          <!-- CATEGORY 1: PORTRAITS (9) -->
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20250819_050828741.PORTRAIT.webp" loading="lazy" alt="Portrait study 01" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260730_123449051.PORTRAIT.ORIGINAL (1).webp" loading="lazy" alt="Portrait study 02" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260804_100601289.PORTRAIT (1).webp" loading="lazy" alt="Portrait study 03" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260807_113127829.PORTRAIT.ORIGINAL (1).webp" loading="lazy" alt="Portrait study 04" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260826_100451743.PORTRAIT.ORIGINAL.webp" loading="lazy" alt="Portrait study 05" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260923_094245489.PORTRAIT (1).webp" loading="lazy" alt="Portrait study 06" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20260923_094248973.PORTRAIT (1).webp" loading="lazy" alt="Portrait study 07" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20261006_104307962.PORTRAIT.webp" loading="lazy" alt="Portrait study 08" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="portraits" data-drive="">
+            <img src="PXL_20261013_111151400.PORTRAIT.ORIGINAL.webp" loading="lazy" alt="Portrait study 09" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Portraits</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+
+          <!-- CATEGORY 2: NOCTURNE & MOTION (9) -->
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="IMG_StarTrails_20251215020948.webp" loading="lazy" alt="Star trails in the night sky" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20250904_125939465.NIGHT.RAW-01.COVER.webp" loading="lazy" alt="Night cover frame" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20251118_123319224.NIGHT.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Night original study" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20260914_133027207.NIGHT.RAW-02.ORIGINAL.webp" loading="lazy" alt="Evening shadows" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20261002_191404275.NIGHT (1).webp" loading="lazy" alt="City night atmosphere" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20260806_120708925.ACTION_PAN-02.ORIGINAL (1).webp" loading="lazy" alt="Action pan motion study 01" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20260831_123258933.ACTION_PAN-01.COVER.webp" loading="lazy" alt="Action pan motion study 02" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="PXL_20260916_101949829.ACTION_PAN-01.COVER.webp" loading="lazy" alt="Action pan motion study 03" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="night-motion" data-drive="">
+            <img src="IMG_20251207_002022_533.webp" loading="lazy" alt="Midnight frame" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Nocturne &amp; Motion</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+
+          <!-- CATEGORY 3: FINE RETOUCH (28) -->
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="1370.webp" loading="lazy" alt="Curated retouch 1370" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025061216201478.webp" loading="lazy" alt="Retouch series 01" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025070720580654.webp" loading="lazy" alt="Retouch series 02" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025070814430454.webp" loading="lazy" alt="Retouch series 03" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025070814503842.webp" loading="lazy" alt="Retouch series 04" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025070814532448.webp" loading="lazy" alt="Retouch series 05" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025070815114490.webp" loading="lazy" alt="Retouch series 06" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025071804122326.webp" loading="lazy" alt="Retouch series 07" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025080811315320.webp" loading="lazy" alt="Retouch series 08" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025090220123497.webp" loading="lazy" alt="Retouch series 09" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025090420010142.webp" loading="lazy" alt="Retouch series 10" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025092623110467.webp" loading="lazy" alt="Retouch series 11" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025101914422346.webp" loading="lazy" alt="Retouch series 12" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025121923292344.webp" loading="lazy" alt="Retouch series 13" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025121923330605.webp" loading="lazy" alt="Retouch series 14" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025121923354808.webp" loading="lazy" alt="Retouch series 15" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025121923484988.webp" loading="lazy" alt="Retouch series 16" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025121923552922.webp" loading="lazy" alt="Retouch series 17" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025122000094742.webp" loading="lazy" alt="Retouch series 18" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025122418222272.webp" loading="lazy" alt="Retouch series 19" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2025122419074707.webp" loading="lazy" alt="Retouch series 20" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2026021103273205.webp" loading="lazy" alt="Retouch series 21" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2026040804074634.webp" loading="lazy" alt="Retouch series 22" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2026040805412801.webp" loading="lazy" alt="Retouch series 23" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2026040805522852.webp" loading="lazy" alt="Retouch series 24" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2026041014355436.webp" loading="lazy" alt="Retouch series 25" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2026041014421639.webp" loading="lazy" alt="Retouch series 26" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="retouch" data-drive="">
+            <img src="retouch_2026100500483316.webp" loading="lazy" alt="Retouch series 27" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Fine Retouch</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+
+          <!-- CATEGORY 4: RAW CHRONICLES (26) -->
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250607_100151713.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Raw chronicle 01" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250707_132048236.RAW-01.COVER.webp" loading="lazy" alt="Raw chronicle 02" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250722_121904310.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 03" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250808_110804943.RAW-01.COVER (1).webp" loading="lazy" alt="Raw chronicle 04" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250809_095845683.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 05" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250812_115053629.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 06" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250814_114902051.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 07" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250815_124311582.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 08" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250819_074826056.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 09" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250828_100441691.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 10" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250901_114553015.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 11" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250902_092756348.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 12" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250902_112645500.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 13" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250903_114632215.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 14" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250904_113731750.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 15" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250904_113807115.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 16" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250904_123750525.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 17" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250913_105926161.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Raw chronicle 18" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250929_080436292.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 19" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20250929_080504319.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 20" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20251013_104327923.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 21" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20251013_104340295.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Raw chronicle 22" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20251118_103452539.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw chronicle 23" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20251226_012659829.RAW-01.COVER.webp" loading="lazy" alt="Raw chronicle 24" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20260916_083331740.RAW-01.COVER.webp" loading="lazy" alt="Raw chronicle 25" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="raw-frames" data-drive="">
+            <img src="PXL_20260916_102432299.RAW-01.COVER (1).webp" loading="lazy" alt="Raw chronicle 26" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Raw Chronicles</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+
+          <!-- CATEGORY 5: ELSEWHERE & TRAVEL (27) -->
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260921_051255206.RAW-01.COVER.webp" loading="lazy" alt="Elsewhere frame 01" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20250616_053254478.webp" loading="lazy" alt="Elsewhere frame 02" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260325_024251656 (1).webp" loading="lazy" alt="Elsewhere frame 03" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260327_114612754.webp" loading="lazy" alt="Elsewhere frame 04" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260418_093549321 (2).webp" loading="lazy" alt="Elsewhere frame 05" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260802_114240201 (1).webp" loading="lazy" alt="Elsewhere frame 06" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260825_124026721.webp" loading="lazy" alt="Elsewhere frame 07" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260825_124028945.webp" loading="lazy" alt="Elsewhere frame 08" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260826_093246918.webp" loading="lazy" alt="Elsewhere frame 09" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260831_113118100 (1).webp" loading="lazy" alt="Elsewhere frame 10" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260831_114907325.webp" loading="lazy" alt="Elsewhere frame 11" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260831_123327690 (1).webp" loading="lazy" alt="Elsewhere frame 12" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260902_125603784 (1) (1).webp" loading="lazy" alt="Elsewhere frame 13" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260902_125649152 (1) (1).webp" loading="lazy" alt="Elsewhere frame 14" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260903_105709100 (1).webp" loading="lazy" alt="Elsewhere frame 15" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260907_124852650.webp" loading="lazy" alt="Elsewhere frame 16" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260914_115636624 (1).webp" loading="lazy" alt="Elsewhere frame 17" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260914_120308282 (1) (1).webp" loading="lazy" alt="Elsewhere frame 18" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260914_120608983 (1).webp" loading="lazy" alt="Elsewhere frame 19" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260914_120732838 (1) (1).webp" loading="lazy" alt="Elsewhere frame 20" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260914_120732838 (2).webp" loading="lazy" alt="Elsewhere frame 21" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260914_121539005 (1).webp" loading="lazy" alt="Elsewhere frame 22" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260914_121602145 (1).webp" loading="lazy" alt="Elsewhere frame 23" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260914_121707938 (1) (1).webp" loading="lazy" alt="Elsewhere frame 24" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20260915_194802510.webp" loading="lazy" alt="Elsewhere frame 25" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20261006_104155703 (1).webp" loading="lazy" alt="Elsewhere frame 26" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+          <figure class="archive-card" data-category="elsewhere" data-drive="">
+            <img src="PXL_20261006_104450166 (1).webp" loading="lazy" alt="Elsewhere frame 27" />
+            <figcaption class="archive-overlay"><span class="archive-tag">Elsewhere</span><span>ORIGINAL ↗</span></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- 04: MOVING IMAGE / FILM -->
       <section class="film" id="films">
-        <div class="film-backdrop" style="background-image: url('PXL_20250707_132048236.RAW-01.COVER.jpg');"></div>
+        <div class="film-backdrop" style="background-image: url('PXL_20250707_132048236.RAW-01.COVER.webp');"></div>
         <div class="film-content">
-          <p class="section-label">( 03 — MOVING IMAGE )</p>
+          <p class="section-label">( 04 — MOVING IMAGE )</p>
           <p class="film-kicker">A collection of stories in motion.</p>
           <h2>Films<br /><i>with feeling.</i></h2>
-          <button class="play-button" type="button" data-video-title="Reel 2025" aria-label="Play showreel"><span>PLAY<br />REEL</span><b>▶</b></button>
+          <button class="play-button" type="button" data-video-title="Reel 2026" aria-label="Play showreel"><span>PLAY<br />REEL</span><b>▶</b></button>
         </div>
         <p class="film-credit">SHOWREEL / 02:16</p>
       </section>
 
+      <!-- 05: CONTACT -->
       <section class="contact section-pad" id="contact">
         <p class="section-label">( LET'S WORK TOGETHER )</p>
         <h2>Have a story<br />worth <i>keeping?</i></h2>
@@ -108,10 +754,287 @@
       </section>
     </main>
 
+    <!-- LIGHTBOX MODAL WITH GOOGLE DRIVE ORIGINAL QUALITY LINK -->
+    <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image preview">
+      <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close preview">×</button>
+      <img id="lightbox-img" src="" alt="Full preview" />
+      <div class="lightbox-bar">
+        <span id="lightbox-caption"></span>
+        <a id="lightbox-drive-link" class="drive-btn" href="#" target="_blank" rel="noopener noreferrer">
+          VIEW ORIGINAL QUALITY (DRIVE) ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- QUICK EXPLORE INTERACTIVE WALK BUTTON & POPUP -->
+    <button class="quick-explore-pill" id="open-walk-btn" type="button">
+      <span>✦ QUICK EXPLORE WALK</span>
+    </button>
+
+    <div class="walk-modal" id="walk-modal" role="dialog" aria-modal="true" aria-label="Interactive portfolio walk">
+      <div class="walk-canvas-wrap">
+        <button class="walk-close" id="close-walk-btn" type="button">SKIP / CLOSE ×</button>
+        <canvas id="walk-canvas" width="420" height="740"></canvas>
+      </div>
+    </div>
+
     <dialog class="reel-modal" id="reel-modal">
       <button class="modal-close" type="button" aria-label="Close showreel">×</button>
       <div class="modal-placeholder"><span>SHOWREEL</span><p>Add your Vimeo, YouTube, or self-hosted film embed here.</p></div>
     </dialog>
+
     <script src="script.js"></script>
+    <script>
+      // =========================================================================
+      // 1. GOOGLE DRIVE CONFIGURATION FOR ORIGINAL QUALITY
+      // =========================================================================
+      // Paste your shared Google Drive Folder link here so every photo links to original quality immediately:
+      const DEFAULT_GOOGLE_DRIVE_FOLDER = "https://drive.google.com/";
+
+      // Optional: If you want specific images to open their exact individual Google Drive file link,
+      // add them here (or paste the link inside data-drive="" on any <figure> tag above):
+      const SPECIFIC_DRIVE_LINKS = {
+        // "1370.webp": "https://drive.google.com/file/d/YOUR_FILE_ID/view?usp=sharing",
+      };
+
+      // =========================================================================
+      // 2. CATEGORY FILTERING & LIGHTBOX LOGIC
+      // =========================================================================
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const archiveCards = document.querySelectorAll('.archive-card');
+
+      function filterArchive(category) {
+        filterButtons.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.filter === category);
+        });
+        archiveCards.forEach(card => {
+          const match = category === 'all' || card.dataset.category === category;
+          card.classList.toggle('hidden', !match);
+        });
+      }
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => filterArchive(btn.dataset.filter));
+      });
+
+      document.querySelectorAll('[data-JumpFilter]').forEach(link => {
+        link.addEventListener('click', () => {
+          filterArchive(link.getAttribute('data-JumpFilter'));
+        });
+      });
+
+      // Lightbox open/close
+      const lightboxModal = document.getElementById('lightbox-modal');
+      const lightboxImg = document.getElementById('lightbox-img');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      const lightboxDriveLink = document.getElementById('lightbox-drive-link');
+      const lightboxClose = document.getElementById('lightbox-close');
+
+      archiveCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const imgEl = card.querySelector('img');
+          const fileName = imgEl.getAttribute('src');
+          const customDrive = card.getAttribute('data-drive') || SPECIFIC_DRIVE_LINKS[fileName] || DEFAULT_GOOGLE_DRIVE_FOLDER;
+
+          lightboxImg.src = fileName;
+          lightboxCaption.textContent = fileName.replace('.webp', '');
+          lightboxDriveLink.href = customDrive;
+          lightboxModal.classList.add('open');
+        });
+      });
+
+      lightboxClose.addEventListener('click', () => lightboxModal.classList.remove('open'));
+      lightboxModal.addEventListener('click', (e) => {
+        if (e.target === lightboxModal) lightboxModal.classList.remove('open');
+      });
+
+      // =========================================================================
+      // 3. "PUT YOUR FINGER" INTERACTIVE CHARACTER WALK (FROM VIDEO)
+      // =========================================================================
+      const walkModal = document.getElementById('walk-modal');
+      const openWalkBtn = document.getElementById('open-walk-btn');
+      const closeWalkBtn = document.getElementById('close-walk-btn');
+      const canvas = document.getElementById('walk-canvas');
+      const ctx = canvas.getContext('2d');
+
+      const walkImages = Array.from(archiveCards).map(c => {
+        const im = new Image();
+        im.src = c.querySelector('img').getAttribute('src');
+        return im;
+      });
+
+      let isHolding = false;
+      let holdCharge = 0;
+      let walkDist = 0;
+      let animId = null;
+
+      function drawWalkScene() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (holdCharge < 100 && walkDist === 0) {
+          // Screen 1: "put your finger" intro
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#000';
+          ctx.font = '600 32px Manrope, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('put your', 210, 170);
+          ctx.fillText('finger', 210, 215);
+
+          // Arrow pointing down-right
+          ctx.lineWidth = 5;
+          ctx.strokeStyle = '#000';
+          ctx.beginPath();
+          ctx.moveTo(225, 250);
+          ctx.lineTo(255, 345);
+          ctx.moveTo(230, 330);
+          ctx.lineTo(255, 345);
+          ctx.lineTo(270, 320);
+          ctx.stroke();
+
+          // Cute character peeking from left
+          ctx.fillStyle = '#fff';
+          ctx.beginPath();
+          ctx.arc(45, 370, 72, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = '#000';
+          ctx.save();
+          ctx.translate(45, 365);
+          ctx.rotate(0.18);
+          ctx.fillRect(-10, -28, 12, 42);
+          ctx.fillRect(18, -28, 12, 42);
+          ctx.restore();
+
+          // 8-segment hold ring
+          const cx = 265, cy = 445, r = 48;
+          const activeSegments = Math.floor((holdCharge / 100) * 8);
+          for (let i = 0; i < 8; i++) {
+            const start = (i * Math.PI) / 4 - Math.PI / 2;
+            const end = start + Math.PI / 6;
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, start, end);
+            ctx.lineWidth = 11;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = i < activeSegments ? '#000' : '#ccc';
+            ctx.stroke();
+          }
+        } else {
+          // Screen 2: Starry Night Road + Walking Character + Rising Photos
+          ctx.fillStyle = '#000';
+          ctx.fillRect(0, 0, canvas.width, 230);
+
+          // Moon & stars
+          ctx.fillStyle = '#fff';
+          ctx.beginPath();
+          ctx.arc(195, 78, 22, 0, Math.PI * 2);
+          ctx.fill();
+          for (let s = 0; s < 35; s++) {
+            const sx = (s * 97) % canvas.width;
+            const sy = (s * 53) % 195;
+            ctx.fillRect(sx, sy, (s % 2) + 1.5, (s % 2) + 1.5);
+          }
+
+          // Curved Horizon & Perspective Path
+          ctx.fillStyle = '#fff';
+          ctx.beginPath();
+          ctx.moveTo(0, 215);
+          ctx.quadraticCurveTo(210, 185, 420, 215);
+          ctx.lineTo(420, 740);
+          ctx.lineTo(0, 740);
+          ctx.fill();
+
+          ctx.strokeStyle = '#000';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(165, 198);
+          ctx.lineTo(15, 740);
+          ctx.moveTo(245, 198);
+          ctx.lineTo(405, 740);
+          ctx.stroke();
+
+          // Current Photo along the path
+          const idx = Math.floor(walkDist / 140) % walkImages.length;
+          const stepProgress = (walkDist % 140) / 140;
+          const currentImg = walkImages[idx];
+
+          if (currentImg && currentImg.complete) {
+            const size = 45 + stepProgress * 155;
+            const px = 245 + stepProgress * 30 - size / 2;
+            const py = 190 + stepProgress * 150 - size / 2;
+            ctx.fillStyle = '#000';
+            ctx.fillRect(px - 4, py - 4, size + 8, size + 8);
+            ctx.drawImage(currentImg, px, py, size, size);
+          }
+
+          // Walking character in center
+          const bob = isHolding ? Math.sin(walkDist * 0.15) * 6 : 0;
+          ctx.fillStyle = '#eee';
+          ctx.strokeStyle = '#000';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(195, 360 + bob, 56, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillRect(168, 412 + bob, 54, 58);
+
+          // Speech bubble when passing a photo
+          if (stepProgress > 0.68) {
+            ctx.fillStyle = '#fff';
+            ctx.strokeStyle = '#000';
+            ctx.beginPath();
+            ctx.roundRect(75, 255, 110, 42, 18);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#000';
+            ctx.font = '600 16px Manrope, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(`#${idx + 1} / 99`, 130, 281);
+
+            // Turn eyes back to viewer
+            ctx.fillRect(178, 345 + bob, 9, 28);
+            ctx.fillRect(202, 345 + bob, 9, 28);
+          }
+
+          ctx.fillStyle = '#000';
+          ctx.font = '500 13px DM Mono, monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(isHolding ? 'KEEP HOLDING TO WALK...' : 'HOLD SCREEN TO WALK FORWARD', 210, 705);
+        }
+
+        if (isHolding) {
+          if (holdCharge < 100) {
+            holdCharge += 2.2;
+          } else {
+            walkDist += 2.4;
+          }
+        } else if (holdCharge < 100 && holdCharge > 0) {
+          holdCharge = Math.max(0, holdCharge - 2);
+        }
+
+        if (walkModal.classList.contains('open')) {
+          animId = requestAnimationFrame(drawWalkScene);
+        }
+      }
+
+      openWalkBtn.addEventListener('click', () => {
+        walkModal.classList.add('open');
+        holdCharge = 0;
+        walkDist = 0;
+        drawWalkScene();
+      });
+
+      closeWalkBtn.addEventListener('click', () => {
+        walkModal.classList.remove('open');
+        cancelAnimationFrame(animId);
+      });
+
+      ['mousedown', 'touchstart'].forEach(evt =>
+        canvas.addEventListener(evt, (e) => { e.preventDefault(); isHolding = true; })
+      );
+      ['mouseup', 'mouseleave', 'touchend'].forEach(evt =>
+        window.addEventListener(evt, () => { isHolding = false; })
+      );
+    </script>
   </body>
 </html>
