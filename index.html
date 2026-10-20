@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Velorah® — Mahmud Arifin Visual Stories & Portfolio Archive." />
-    <title>Velorah® — Mahmud Arifin Visual Archive</title>
+    <meta name="description" content="Mahmud Arifin — Photographer and videographer based in Dhaka." />
+    <title>Mahmud Arifin — Visual Stories</title>
 
-    <!-- Google Fonts: Instrument Serif & Inter (400, 500) -->
+    <!-- Google Fonts: Instrument Serif & Inter (400, 500, 600) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,7 +14,7 @@
       rel="stylesheet"
     />
 
-    <!-- Tailwind CSS CDN configured with your exact HSL CSS Variables -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -47,7 +47,6 @@
         --font-display: 'Instrument Serif', serif;
         --font-body: 'Inter', sans-serif;
 
-        /* Dark Color Theme (HSL values) */
         --background: 201 100% 13%;
         --foreground: 0 0% 100%;
         --muted-foreground: 240 4% 66%;
@@ -100,7 +99,7 @@
         pointer-events: none;
       }
 
-      /* Animations */
+      /* Entry & Hero Animations */
       @keyframes fade-rise {
         from {
           opacity: 0;
@@ -121,6 +120,33 @@
         animation: fade-rise 0.8s ease-out 0.4s both;
       }
 
+      /* Custom Ken Burns Cinema Loop for Hero Slides */
+      @keyframes cinema-pan {
+        0% {
+          transform: scale(1.02) translate(0, 0);
+        }
+        50% {
+          transform: scale(1.12) translate(-1.5%, -1%);
+        }
+        100% {
+          transform: scale(1.02) translate(0, 0);
+        }
+      }
+      .cinema-slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 1.8s ease-in-out;
+        animation: cinema-pan 18s ease-in-out infinite;
+        filter: brightness(0.65) contrast(1.08);
+      }
+      .cinema-slide.active {
+        opacity: 1;
+      }
+
       /* Portfolio Archive Cards */
       .archive-card.hidden {
         display: none;
@@ -134,24 +160,48 @@
 
   <body class="bg-background text-foreground antialiased selection:bg-white selection:text-black">
     <!-- ===================================================================== -->
-    <!-- SINGLE-PAGE HERO SECTION WITH FULLSCREEN LOOPING BACKGROUND VIDEO     -->
+    <!-- SINGLE-PAGE HERO SECTION WITH CUSTOMIZED MOTION BACKGROUND            -->
     <!-- ===================================================================== -->
     <div id="top" class="relative min-h-screen w-full overflow-hidden flex flex-col justify-between">
-      <!-- Video Background (No overlays, radial gradients, or decorative blobs) -->
-      <video
-        autoplay
-        loop
-        muted
-        playsinline
-        class="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        <source
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
-          type="video/mp4"
+      <!-- Custom Motion Background: Plays your own .mp4 if uploaded (hero.mp4), -->
+      <!-- AND runs a live cinematic motion reel of your own photography!        -->
+      <div class="absolute inset-0 w-full h-full z-0 bg-[#04151f]">
+        <img
+          src="PXL_20251226_012659829.RAW-01.COVER.webp"
+          alt="Mahmud Arifin Hero Frame 1"
+          class="cinema-slide active"
         />
-      </video>
+        <img
+          src="IMG_StarTrails_20251215020948.webp"
+          alt="Mahmud Arifin Hero Frame 2"
+          class="cinema-slide"
+        />
+        <img
+          src="PXL_20250707_132048236.RAW-01.COVER.webp"
+          alt="Mahmud Arifin Hero Frame 3"
+          class="cinema-slide"
+        />
+        <img
+          src="PXL_20251118_123319224.NIGHT.RAW-02.ORIGINAL (1).webp"
+          alt="Mahmud Arifin Hero Frame 4"
+          class="cinema-slide"
+        />
 
-      <!-- Navigation Bar -->
+        <!-- Optional: Upload any <20MB video named "hero.mp4" to GitHub and it will play automatically -->
+        <video
+          id="custom-hero-video"
+          autoplay
+          loop
+          muted
+          playsinline
+          class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700"
+          onloadeddata="this.classList.remove('opacity-0')"
+        >
+          <source src="hero.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      <!-- Navigation Bar (Mahmud Arifin / MA•AR Branding) -->
       <header class="w-full relative z-10">
         <nav class="relative z-10 flex flex-row items-center justify-between px-8 py-6 max-w-7xl mx-auto">
           <a
@@ -159,46 +209,53 @@
             class="text-3xl tracking-tight text-foreground"
             style="font-family: 'Instrument Serif', serif;"
           >
-            Velorah<sup class="text-xs">®</sup>
+            MA<span>•</span>AR
           </a>
 
           <div class="hidden md:flex items-center gap-8">
             <a href="#top" class="text-sm text-foreground transition-colors">Home</a>
-            <a href="#studio" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Studio</a>
-            <a href="#about" class="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
-            <a href="#journal" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Journal</a>
-            <a href="#reach-us" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Reach Us</a>
+            <a href="#studio" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Collection</a>
+            <a href="#about" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Philosophy</a>
+            <a href="#journal" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Films</a>
+            <a href="#reach-us" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</a>
           </div>
 
-          <a
-            href="#studio"
+          <button
+            id="nav-pixel-btn"
+            type="button"
             class="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03] cursor-pointer"
           >
-            Begin Journey
-          </a>
+            ✦ Walk with Pixel
+          </button>
         </nav>
       </header>
 
       <!-- Vertically Centered Hero Section -->
       <section class="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 pb-40 py-[90px] mx-auto my-auto">
+        <p class="text-xs uppercase tracking-[0.25em] text-muted-foreground mb-5 animate-fade-rise">
+          Mahmud Arifin · Photographer &amp; Videographer
+        </p>
+
         <h1
           class="text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground animate-fade-rise"
           style="font-family: 'Instrument Serif', serif;"
         >
-          Where <em class="not-italic text-muted-foreground">dreams</em> rise
+          Where <em class="not-italic text-muted-foreground">moments</em> rise
           <em class="not-italic text-muted-foreground">through the silence.</em>
         </h1>
 
         <p class="text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay">
-          We're designing tools for deep thinkers, bold creators, and quiet rebels. Amid the chaos, we build digital spaces for sharp focus and inspired work.
+          I make images for the feeling that returns long after the moment has gone. Based in Dhaka and available worldwide for visual storytelling.
         </p>
 
-        <a
-          href="#studio"
-          class="liquid-glass rounded-full px-14 py-5 text-base text-foreground mt-12 transition-transform hover:scale-[1.03] cursor-pointer animate-fade-rise-delay-2"
-        >
-          Begin Journey
-        </a>
+        <div class="flex flex-wrap items-center justify-center gap-4 mt-12 animate-fade-rise-delay-2">
+          <a
+            href="#studio"
+            class="liquid-glass rounded-full px-12 py-5 text-base text-foreground transition-transform hover:scale-[1.03] cursor-pointer"
+          >
+            Explore 99 Frames
+          </a>
+        </div>
       </section>
 
       <div class="relative z-10 h-6"></div>
@@ -220,7 +277,7 @@
         </div>
         <div class="lg:col-span-5">
           <p class="text-muted-foreground text-base leading-relaxed">
-            Curated by Mahmud Arifin in Dhaka. Every photograph in this archive is an anchor for the atmosphere that lingers long after the moment has passed.
+            Curated by Mahmud Arifin in Dhaka. Every photograph in this archive is an anchor for the atmosphere that lingers long after the light has shifted.
           </p>
         </div>
       </div>
@@ -295,7 +352,7 @@
     <section id="studio" class="max-w-7xl mx-auto px-6 sm:px-8 py-24 border-t border-white/10">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
         <div>
-          <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">02 / Studio Catalogue</p>
+          <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">02 / Visual Archive</p>
           <h2
             class="text-4xl sm:text-6xl font-normal tracking-tight text-foreground"
             style="font-family: 'Instrument Serif', serif;"
@@ -481,7 +538,7 @@
     <!-- REACH US / FOOTER                                                     -->
     <!-- ===================================================================== -->
     <footer id="reach-us" class="max-w-7xl mx-auto px-6 sm:px-8 py-24 border-t border-white/10 text-center">
-      <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">04 / Reach Us</p>
+      <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">04 / Contact</p>
       <h2
         class="text-5xl sm:text-7xl font-normal text-foreground tracking-tight"
         style="font-family: 'Instrument Serif', serif;"
@@ -498,7 +555,7 @@
       </div>
 
       <div class="mt-20 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-        <p>© <span id="year">2026</span> Velorah® · Mahmud Arifin. Based in Dhaka.</p>
+        <p>© <span id="year">2026</span> Mahmud Arifin. Based in Dhaka · Available Worldwide.</p>
         <div class="flex items-center gap-6">
           <a href="#top" class="hover:text-foreground transition-colors">Instagram</a>
           <a href="#top" class="hover:text-foreground transition-colors">Vimeo</a>
@@ -506,6 +563,60 @@
         </div>
       </div>
     </footer>
+
+    <!-- ===================================================================== -->
+    <!-- "PIXEL" TIME-BASED GREETING MODAL ON WEBSITE ENTRY                    -->
+    <!-- ===================================================================== -->
+    <div
+      id="pixel-greeting-modal"
+      class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Greeting from Pixel"
+    >
+      <div class="bg-white text-black max-w-md w-full rounded-3xl border-4 border-black p-6 sm:p-8 text-center shadow-2xl relative overflow-hidden">
+        <!-- Live Animated Canvas of "Pixel" Waving -->
+        <div class="mx-auto w-44 h-40 mb-2">
+          <canvas id="pixel-greet-canvas" width="220" height="190" class="w-full h-full block"></canvas>
+        </div>
+
+        <span
+          id="pixel-time-badge"
+          class="inline-block bg-black text-white text-[11px] font-semibold uppercase tracking-widest px-3.5 py-1 rounded-full mb-3"
+        >
+          HELLO THERE
+        </span>
+
+        <h3
+          id="pixel-greeting-title"
+          class="text-3xl sm:text-4xl font-normal text-black leading-tight"
+          style="font-family: 'Instrument Serif', serif;"
+        >
+          Hi! I'm Pixel.
+        </h3>
+
+        <p id="pixel-greeting-text" class="text-sm text-neutral-700 mt-3 leading-relaxed">
+          I'm Mahmud Arifin's little gallery companion. Want to hold your finger on the screen and walk through all 99 photographs with me?
+        </p>
+
+        <div class="mt-6 flex flex-col gap-2.5">
+          <button
+            id="start-walk-from-pixel"
+            type="button"
+            class="w-full bg-black text-white rounded-full py-3.5 px-6 text-xs font-semibold uppercase tracking-wider hover:scale-[1.02] transition-transform cursor-pointer"
+          >
+            ✦ Walk With Pixel (Interactive)
+          </button>
+          <button
+            id="dismiss-pixel-btn"
+            type="button"
+            class="w-full bg-neutral-100 text-neutral-700 border border-neutral-300 rounded-full py-3 px-6 text-xs font-medium uppercase tracking-wider hover:bg-neutral-200 transition-colors cursor-pointer"
+          >
+            Explore Standard Website
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- ===================================================================== -->
     <!-- LIGHTBOX MODAL WITH GOOGLE DRIVE ORIGINAL QUALITY LINK                -->
@@ -545,14 +656,14 @@
     </div>
 
     <!-- ===================================================================== -->
-    <!-- INTERACTIVE NIGHT WALK FLOATING BUTTON & MODAL                        -->
+    <!-- FLOATING PIXEL BUTTON & INTERACTIVE NIGHT WALK MODAL                  -->
     <!-- ===================================================================== -->
     <button
       id="open-walk-btn"
       type="button"
       class="fixed bottom-6 right-6 z-40 liquid-glass rounded-full px-6 py-3 text-xs uppercase tracking-wider text-foreground transition-transform hover:scale-[1.03] cursor-pointer shadow-2xl"
     >
-      ✦ Interactive Walk
+      ✦ Walk with Pixel
     </button>
 
     <div
@@ -582,7 +693,7 @@
         <button
           id="walk-inspect-btn"
           type="button"
-          class=" hidden absolute bottom-16 left-1/2 -translate-x-1/2 z-10 bg-black text-white border border-white rounded-full px-5 py-2 text-xs cursor-pointer shadow-lg"
+          class="hidden absolute bottom-16 left-1/2 -translate-x-1/2 z-10 bg-black text-white border border-white rounded-full px-5 py-2 text-xs cursor-pointer shadow-lg"
         >
           Open Original Quality ↗
         </button>
@@ -591,6 +702,17 @@
 
     <script>
       document.getElementById('year').textContent = new Date().getFullYear();
+
+      // =========================================================================
+      // 0. HERO CINEMA SLIDESHOW LOOP (YOUR OWN PHOTOGRAPHY)
+      // =========================================================================
+      const heroSlides = document.querySelectorAll('.cinema-slide');
+      let currentHeroSlide = 0;
+      setInterval(() => {
+        heroSlides[currentHeroSlide].classList.remove('active');
+        currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+        heroSlides[currentHeroSlide].classList.add('active');
+      }, 5000);
 
       // =========================================================================
       // 1. GOOGLE DRIVE ORIGINAL QUALITY LINKS
@@ -740,8 +862,18 @@
       });
 
       // =========================================================================
-      // 3. INTERACTIVE NIGHT WALK ENGINE
+      // 3. "PIXEL" TIME-BASED GREETING ON WEBSITE ENTRY + NIGHT WALK ENGINE
       // =========================================================================
+      const pixelGreetingModal = document.getElementById('pixel-greeting-modal');
+      const pixelGreetCanvas = document.getElementById('pixel-greet-canvas');
+      const gCtx = pixelGreetCanvas.getContext('2d');
+      const pixelTimeBadge = document.getElementById('pixel-time-badge');
+      const pixelGreetingTitle = document.getElementById('pixel-greeting-title');
+      const pixelGreetingText = document.getElementById('pixel-greeting-text');
+      const startWalkFromPixel = document.getElementById('start-walk-from-pixel');
+      const dismissPixelBtn = document.getElementById('dismiss-pixel-btn');
+      const navPixelBtn = document.getElementById('nav-pixel-btn');
+
       const walkModal = document.getElementById('walk-modal');
       const openWalkBtn = document.getElementById('open-walk-btn');
       const closeWalkBtn = document.getElementById('close-walk-btn');
@@ -750,6 +882,7 @@
       const canvas = document.getElementById('walk-canvas');
       const ctx = canvas.getContext('2d');
 
+      // Halftone dot pattern shared by Pixel in both the greeting and the walk
       const patternCanvas = document.createElement('canvas');
       patternCanvas.width = 6;
       patternCanvas.height = 6;
@@ -762,6 +895,135 @@
       pCtx.fill();
       const halftonePattern = ctx.createPattern(patternCanvas, 'repeat');
 
+      // Determine visitor's local time of day for Pixel's custom greeting
+      function configurePixelTimeGreeting() {
+        const hour = new Date().getHours();
+        let badge = '';
+        let title = '';
+        let message = '';
+        let bubbleWord = 'hi! :3';
+
+        if (hour >= 5 && hour < 12) {
+          badge = '☀ GOOD MORNING';
+          title = "Morning! I'm Pixel.";
+          message = "Good morning! I'm Pixel, Mahmud Arifin's gallery guide. Grab your morning coffee and hold your finger on the screen to walk through 99 visual stories with me!";
+          bubbleWord = 'morning!';
+        } else if (hour >= 12 && hour < 17) {
+          badge = '🌤 GOOD AFTERNOON';
+          title = "Hey there! I'm Pixel.";
+          message = "Good afternoon! I'm Pixel, your little guide through Mahmud's visual archive. Want to take a quick interactive walk together or browse the collection?";
+          bubbleWord = 'hey! :3';
+        } else if (hour >= 17 && hour < 21) {
+          badge = '🌆 GOOD EVENING';
+          title = "Evening! I'm Pixel.";
+          message = "Good evening! Golden hour is the best time for photography. I'm Pixel—press below if you'd like me to walk you down the starry road through all 99 frames!";
+          bubbleWord = 'evening!';
+        } else {
+          badge = '🌙 LATE NIGHT OWL';
+          title = "Night Owl! I'm Pixel.";
+          message = "The moon is out! I'm Pixel, Mahmud's night-walk companion. Keep your finger on the screen and let's walk down the starry path through his 99 photographs.";
+          bubbleWord = 'awake? :3';
+        }
+
+        pixelTimeBadge.textContent = badge;
+        pixelGreetingTitle.textContent = title;
+        pixelGreetingText.textContent = message;
+        return bubbleWord;
+      }
+
+      const greetingBubbleWord = configurePixelTimeGreeting();
+      let greetTick = 0;
+      let greetAnimId = null;
+
+      function animateGreetingPixel() {
+        gCtx.clearRect(0, 0, pixelGreetCanvas.width, pixelGreetCanvas.height);
+        greetTick += 0.08;
+
+        const bob = Math.sin(greetTick) * 3.5;
+        const waveAngle = Math.sin(greetTick * 2.2) * 0.35;
+
+        gCtx.save();
+        // Ground shadow
+        gCtx.fillStyle = '#000';
+        gCtx.beginPath();
+        gCtx.ellipse(95, 176, 36, 6, 0, 0, Math.PI * 2);
+        gCtx.fill();
+
+        gCtx.fillStyle = halftonePattern;
+        gCtx.strokeStyle = '#000';
+        gCtx.lineWidth = 3;
+
+        // Body
+        gCtx.beginPath();
+        gCtx.roundRect(68, 118 + bob, 54, 52, 18);
+        gCtx.fill();
+        gCtx.stroke();
+
+        // Left resting arm
+        gCtx.beginPath();
+        gCtx.roundRect(48, 128 + bob, 24, 14, 7);
+        gCtx.fill();
+        gCtx.stroke();
+
+        // Right waving arm
+        gCtx.save();
+        gCtx.translate(120, 130 + bob);
+        gCtx.rotate(-0.45 + waveAngle);
+        gCtx.beginPath();
+        gCtx.roundRect(0, -7, 34, 14, 7);
+        gCtx.fill();
+        gCtx.stroke();
+        gCtx.beginPath();
+        gCtx.arc(36, 0, 11, 0, Math.PI * 2);
+        gCtx.fill();
+        gCtx.stroke();
+        gCtx.restore();
+
+        // Head
+        gCtx.beginPath();
+        gCtx.arc(95, 76 + bob, 46, 0, Math.PI * 2);
+        gCtx.fill();
+        gCtx.stroke();
+
+        // Pixel's two vertical block eyes
+        gCtx.fillStyle = '#000';
+        gCtx.save();
+        gCtx.translate(98, 76 + bob);
+        gCtx.rotate(0.08);
+        gCtx.fillRect(-16, -16, 9, 28);
+        gCtx.fillRect(6, -16, 9, 28);
+        gCtx.restore();
+
+        // Speech bubble ("morning!", "hey! :3", etc.)
+        gCtx.fillStyle = '#fff';
+        gCtx.strokeStyle = '#000';
+        gCtx.lineWidth = 2.5;
+        gCtx.beginPath();
+        gCtx.roundRect(132, 14, 82, 34, 16);
+        gCtx.fill();
+        gCtx.stroke();
+
+        gCtx.fillStyle = '#000';
+        gCtx.font = '700 13px Inter, sans-serif';
+        gCtx.textAlign = 'center';
+        gCtx.fillText(greetingBubbleWord, 173, 35);
+        gCtx.restore();
+
+        if (!pixelGreetingModal.classList.contains('hidden')) {
+          greetAnimId = requestAnimationFrame(animateGreetingPixel);
+        }
+      }
+
+      animateGreetingPixel();
+
+      dismissPixelBtn.addEventListener('click', () => {
+        pixelGreetingModal.classList.add('hidden');
+        cancelAnimationFrame(greetAnimId);
+      });
+
+      // =========================================================================
+      // 4. INTERACTIVE NIGHT WALK ENGINE
+      // =========================================================================
       const photoSources = Array.from(archiveCards).map(c => c.querySelector('img').getAttribute('src'));
       const imageCache = {};
 
@@ -955,7 +1217,7 @@
           ctx.fillStyle = '#000';
           ctx.font = '500 12px Inter, sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText('HOLD FINGER ON RING (OR TAP AUTO-WALK)', 210, 680);
+          ctx.fillText('HOLD FINGER ON RING TO WALK WITH PIXEL', 210, 680);
 
           if (moving) {
             holdCharge = Math.min(100, holdCharge + 2.8);
@@ -1080,8 +1342,8 @@
           ctx.textAlign = 'center';
           ctx.fillText(
             moving
-              ? `WALKING... PLATE ${currentItem.index + 1} OF ${photoSources.length}`
-              : 'HOLD FINGER ON SCREEN TO WALK FORWARD',
+              ? `PIXEL GUIDE · PLATE ${currentItem.index + 1} OF ${photoSources.length}`
+              : 'HOLD FINGER ON SCREEN TO WALK WITH PIXEL',
             210,
             722
           );
@@ -1096,13 +1358,19 @@
         }
       }
 
-      openWalkBtn.addEventListener('click', () => {
+      function launchPixelWalk() {
+        pixelGreetingModal.classList.add('hidden');
+        cancelAnimationFrame(greetAnimId);
         walkModal.classList.remove('hidden');
         walkModal.classList.add('flex');
         getWalkImage(0);
         cancelAnimationFrame(animId);
         renderLoop();
-      });
+      }
+
+      startWalkFromPixel.addEventListener('click', launchPixelWalk);
+      openWalkBtn.addEventListener('click', launchPixelWalk);
+      navPixelBtn.addEventListener('click', launchPixelWalk);
 
       closeWalkBtn.addEventListener('click', () => {
         walkModal.classList.add('hidden');
