@@ -1,661 +1,608 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Mahmud Arifin — Visual storyteller, photographer, and filmmaker based in Dhaka." />
-    <title>Mahmud Arifin — Visual Stories</title>
+    <meta name="description" content="Velorah® — Mahmud Arifin Visual Stories & Portfolio Archive." />
+    <title>Velorah® — Mahmud Arifin Visual Archive</title>
+
+    <!-- Google Fonts: Instrument Serif & Inter (400, 500) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN configured with your exact HSL CSS Variables -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              background: 'hsl(var(--background))',
+              foreground: 'hsl(var(--foreground))',
+              'muted-foreground': 'hsl(var(--muted-foreground))',
+              primary: 'hsl(var(--primary))',
+              'primary-foreground': 'hsl(var(--primary-foreground))',
+              secondary: 'hsl(var(--secondary))',
+              muted: 'hsl(var(--muted))',
+              accent: 'hsl(var(--accent))',
+              border: 'hsl(var(--border))',
+              input: 'hsl(var(--input))',
+            },
+            fontFamily: {
+              display: ['var(--font-display)'],
+              body: ['var(--font-body)'],
+            },
+          },
+        },
+      };
+    </script>
+
     <style>
-      /* Visual Archive & Filter Styling */
-      .collection-section {
-        background: #0b0b0b;
-        color: #f5f3ef;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      :root {
+        --font-display: 'Instrument Serif', serif;
+        --font-body: 'Inter', sans-serif;
+
+        /* Dark Color Theme (HSL values) */
+        --background: 201 100% 13%;
+        --foreground: 0 0% 100%;
+        --muted-foreground: 240 4% 66%;
+        --primary: 0 0% 100%;
+        --primary-foreground: 0 0% 4%;
+        --secondary: 0 0% 10%;
+        --muted: 0 0% 10%;
+        --accent: 0 0% 10%;
+        --border: 0 0% 18%;
+        --input: 0 0% 18%;
       }
-      .collection-controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.65rem;
-        margin: 2rem 0 2.5rem;
+
+      body {
+        font-family: var(--font-body);
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+        margin: 0;
+        overflow-x: hidden;
       }
-      .filter-btn {
-        background: transparent;
-        color: rgba(245, 243, 239, 0.65);
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        padding: 0.55rem 1.1rem;
-        border-radius: 999px;
-        font-family: 'DM Mono', monospace;
-        font-size: 0.75rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: all 0.25s ease;
-      }
-      .filter-btn:hover,
-      .filter-btn.active {
-        background: #f5f3ef;
-        color: #0b0b0b;
-        border-color: #f5f3ef;
-      }
-      .archive-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 1.25rem;
-      }
-      .archive-card {
+
+      /* Liquid Glass Effect */
+      .liquid-glass {
+        background: rgba(255, 255, 255, 0.01);
+        background-blend-mode: luminosity;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: none;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
         position: relative;
         overflow: hidden;
-        border-radius: 8px;
-        background: #161616;
-        aspect-ratio: 4 / 5;
-        cursor: pointer;
-        margin: 0;
-        border: 1px solid rgba(255, 255, 255, 0.06);
       }
+      .liquid-glass::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1.4px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.45) 0%,
+          rgba(255, 255, 255, 0.15) 20%,
+          rgba(255, 255, 255, 0) 40%,
+          rgba(255, 255, 255, 0) 60%,
+          rgba(255, 255, 255, 0.15) 80%,
+          rgba(255, 255, 255, 0.45) 100%
+        );
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      /* Animations */
+      @keyframes fade-rise {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-rise {
+        animation: fade-rise 0.8s ease-out both;
+      }
+      .animate-fade-rise-delay {
+        animation: fade-rise 0.8s ease-out 0.2s both;
+      }
+      .animate-fade-rise-delay-2 {
+        animation: fade-rise 0.8s ease-out 0.4s both;
+      }
+
+      /* Portfolio Archive Cards */
       .archive-card.hidden {
         display: none;
       }
-      .archive-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .archive-card:hover img {
-        transform: scale(1.05);
-      }
-      .archive-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%);
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        padding: 0.95rem 1rem;
-        opacity: 0;
-        transition: opacity 0.25s ease;
-        font-family: 'DM Mono', monospace;
-        font-size: 0.72rem;
-        color: #fff;
-      }
-      .archive-card:hover .archive-overlay {
-        opacity: 1;
-      }
-      .archive-tag {
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        background: rgba(255, 255, 255, 0.14);
-        backdrop-filter: blur(4px);
-        padding: 0.22rem 0.55rem;
-        border-radius: 4px;
-      }
-
-      /* Lightbox Modal */
-      .lightbox-modal {
-        position: fixed;
-        inset: 0;
-        background: rgba(8, 8, 8, 0.94);
-        backdrop-filter: blur(10px);
-        z-index: 10500;
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 1.5rem;
-      }
-      .lightbox-modal.open {
-        display: flex;
-      }
-      .lightbox-modal img {
-        max-width: 90vw;
-        max-height: 75vh;
-        object-fit: contain;
-        border-radius: 6px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-      }
-      .lightbox-bar {
-        margin-top: 1.25rem;
-        display: flex;
-        align-items: center;
-        gap: 1.25rem;
-        flex-wrap: wrap;
-        justify-content: center;
-        font-family: 'DM Mono', monospace;
-        font-size: 0.8rem;
-        color: #f5f3ef;
-      }
-      .drive-btn {
-        background: #f5f3ef;
-        color: #0b0b0b;
-        text-decoration: none;
-        padding: 0.65rem 1.25rem;
-        border-radius: 999px;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        transition: transform 0.2s ease;
-      }
-      .drive-btn:hover {
-        transform: translateY(-2px);
-      }
-      .lightbox-close {
-        position: absolute;
-        top: 1.5rem;
-        right: 1.5rem;
-        background: rgba(255, 255, 255, 0.12);
-        color: #fff;
-        border: none;
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        font-size: 1.4rem;
-        cursor: pointer;
-      }
-
-      /* Entry Welcome Popup */
-      .entry-popup-backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.78);
-        backdrop-filter: blur(8px);
-        z-index: 9500;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1.25rem;
-      }
-      .entry-popup-backdrop.hidden {
-        display: none;
-      }
-      .entry-popup-card {
-        background: #fff;
-        color: #0b0b0b;
-        max-width: 400px;
-        width: 100%;
-        border-radius: 20px;
-        padding: 2rem 1.75rem;
-        text-align: center;
-        border: 3px solid #000;
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-        font-family: 'Manrope', sans-serif;
-      }
-      .entry-popup-card h3 {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.75rem;
-        margin: 0.5rem 0 0.75rem;
-      }
-      .entry-popup-card p {
-        font-size: 0.92rem;
-        color: #333;
-        line-height: 1.5;
-        margin-bottom: 1.5rem;
-      }
-      .entry-popup-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 0.65rem;
-      }
-      .entry-btn-primary {
-        background: #0b0b0b;
-        color: #fff;
-        border: 2px solid #0b0b0b;
-        padding: 0.85rem 1.2rem;
-        border-radius: 999px;
-        font-family: 'DM Mono', monospace;
-        font-size: 0.8rem;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        cursor: pointer;
-      }
-      .entry-btn-secondary {
-        background: transparent;
-        color: #444;
-        border: 1px solid #ccc;
-        padding: 0.7rem 1.2rem;
-        border-radius: 999px;
-        font-family: 'DM Mono', monospace;
-        font-size: 0.75rem;
-        cursor: pointer;
-      }
-
-      /* Floating Quick Explore Pill & Walk Modal */
-      .quick-explore-pill {
-        position: fixed;
-        bottom: 1.5rem;
-        right: 1.5rem;
-        z-index: 900;
-        background: #f5f3ef;
-        color: #0b0b0b;
-        border: 2px solid #0b0b0b;
-        padding: 0.7rem 1.2rem;
-        border-radius: 999px;
-        font-family: 'DM Mono', monospace;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        cursor: pointer;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .walk-modal {
-        position: fixed;
-        inset: 0;
-        z-index: 10000;
-        background: rgba(10, 10, 10, 0.92);
-        backdrop-filter: blur(8px);
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: none;
-      }
-      .walk-modal.open {
-        display: flex;
-      }
-      .walk-canvas-wrap {
-        position: relative;
-        width: min(420px, 94vw);
-        height: min(740px, 86vh);
-        border: 3px solid #000;
-        border-radius: 20px;
-        overflow: hidden;
-        background: #fff;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-      }
-      #walk-canvas {
-        width: 100%;
-        height: 100%;
-        display: block;
-        cursor: pointer;
-      }
-      .walk-top-bar {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        right: 12px;
-        z-index: 10;
-        display: flex;
-        justify-content: space-between;
-        gap: 8px;
-        pointer-events: none;
-      }
-      .walk-ui-btn {
-        pointer-events: auto;
-        background: #000;
-        color: #fff;
-        border: 2px solid #fff;
-        border-radius: 999px;
-        padding: 0.4rem 0.85rem;
-        font-family: 'DM Mono', monospace;
-        font-size: 0.7rem;
-        cursor: pointer;
-      }
-      .walk-ui-btn.active {
-        background: #fff;
-        color: #000;
-        border-color: #000;
-      }
-      .walk-Inspect-btn {
-        position: absolute;
-        bottom: 64px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 12;
-        background: #000;
-        color: #fff;
-        border: 2px solid #fff;
-        border-radius: 999px;
-        padding: 0.5rem 1.1rem;
-        font-family: 'DM Mono', monospace;
-        font-size: 0.72rem;
-        cursor: pointer;
-        display: none;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-      }
-      .walk-Inspect-btn.show {
-        display: block;
+      .filter-btn.active {
+        background: rgba(255, 255, 255, 0.18);
+        color: hsl(var(--foreground));
       }
     </style>
   </head>
-  <body>
-    <div class="cursor-glow" aria-hidden="true"></div>
-    <div class="grain" aria-hidden="true"></div>
 
-    <header class="topbar">
-      <a class="wordmark" href="#top" aria-label="Mahmud Arifin, home">MA<span>•</span>AR</a>
-      <p class="location">BASED IN DHAKA <span>·</span> AVAILABLE WORLDWIDE</p>
-      <button class="menu-button" type="button" aria-expanded="false" aria-controls="menu-panel">
-        <span>MENU</span><i></i>
-      </button>
-    </header>
+  <body class="bg-background text-foreground antialiased selection:bg-white selection:text-black">
+    <!-- ===================================================================== -->
+    <!-- SINGLE-PAGE HERO SECTION WITH FULLSCREEN LOOPING BACKGROUND VIDEO     -->
+    <!-- ===================================================================== -->
+    <div id="top" class="relative min-h-screen w-full overflow-hidden flex flex-col justify-between">
+      <!-- Video Background (No overlays, radial gradients, or decorative blobs) -->
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="absolute inset-0 w-full h-full object-cover z-0"
+      >
+        <source
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
+          type="video/mp4"
+        />
+      </video>
 
-    <nav class="menu-panel" id="menu-panel" aria-label="Primary navigation">
-      <a href="#memories">Quiet Hours <em>01</em></a>
-      <a href="#photographs">Featured Studies <em>02</em></a>
-      <a href="#collection">Visual Index <em>03</em></a>
-      <a href="#films">Moving Image <em>04</em></a>
-      <a href="#contact">Inquiries <em>05</em></a>
-    </nav>
-
-    <main id="top">
-      <!-- HERO SECTION (FULL-RES IMAGE 1: PXL_20251226_012659829.RAW-01.COVER.jpg) -->
-      <section class="hero" aria-label="Introduction">
-        <div
-          class="hero-image"
-          role="img"
-          aria-label="Silhouette overlooking a quiet horizon at dusk"
-          style="background-image: url('PXL_20251226_012659829.RAW-01.COVER.jpg');"
-        ></div>
-        <div class="hero-copy">
-          <p class="eyebrow reveal">MAHMUD ARIFIN · STILL &amp; MOTION</p>
-          <h1><span class="reveal">Frames</span> <i class="reveal">held</i><br /><span class="reveal">against time.</span></h1>
-        </div>
-        <a class="scroll-cue" href="#memories"><span></span> ENTER THE ARCHIVE</a>
-        <p class="hero-index">01 — 05</p>
-      </section>
-
-      <!-- PHILOSOPHY / INTRO NOTE -->
-      <section class="intro section-pad">
-        <p class="section-label">( STATEMENT )</p>
-        <div class="intro-text">
-          <p>Every photograph is an anchor for the atmosphere that lingers <em>long after</em> the light has shifted.</p>
-          <a class="text-link" href="#collection">EXPLORE THE 92-FRAME INDEX <span>↗</span></a>
-        </div>
-      </section>
-
-      <!-- 01: QUIET HOURS / MEMORIES (FULL-RES IMAGES 2 & 3) -->
-      <section class="memories section-pad" id="memories">
-        <div class="section-heading">
-          <p class="section-label">( 01 — PERSONAL DIARY )</p>
-          <h2>Quiet Hours<span>.</span></h2>
-          <p>Unscripted afternoons, distant horizons, and the stillness in between.</p>
-        </div>
-        <div class="memory-layout">
-          <figure class="memory-image image-card image-one" data-full="PXL_20260914_121539005 (1).jpeg" data-title="Quiet Hours I — Afternoon Light">
-            <img src="PXL_20260914_121539005 (1).jpeg" alt="Golden afternoon light captured in high resolution" />
-          </figure>
-          <p class="memory-caption">Unplanned routes<br />and open skies.</p>
-          <figure class="memory-image image-card image-two" data-full="PXL_20261006_104155703 (1).jpeg" data-title="Quiet Hours II — Still Horizon">
-            <img src="PXL_20261006_104155703 (1).jpeg" alt="Serene landscape in full resolution" />
-          </figure>
-          <p class="memory-number">01<br /><span>/ 02</span></p>
-        </div>
-        <a class="round-link" href="#photographs"><span>FEATURED<br />WORKS</span><b>↘</b></a>
-      </section>
-
-      <!-- 02: FEATURED STUDIES (FULL-RES IMAGES 4, 5, 6) -->
-      <section class="photographs section-pad" id="photographs">
-        <div class="section-heading light-heading">
-          <p class="section-label">( 02 — EXHIBITION PLATES )</p>
-          <h2>Featured Studies<span>.</span></h2>
-          <p>Full-resolution master plates across celestial night, raw light, and natural geometry.</p>
-        </div>
-        <div class="photo-grid">
-          <!-- FULL-RES IMAGE 4: IMG_StarTrails_20251215020948.png -->
-          <a href="#collection" data-full="IMG_StarTrails_20251215020948.png" data-title="Celestial Rotation — Long Exposure Master" class="project project-large featured-plate">
-            <img src="IMG_StarTrails_20251215020948.png" alt="Star trails curving across the night sky" />
-            <span class="project-meta"><b>Celestial Rotation</b><em>OPEN FULL PNG PLATE ↗</em></span>
+      <!-- Navigation Bar -->
+      <header class="w-full relative z-10">
+        <nav class="relative z-10 flex flex-row items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+          <a
+            href="#top"
+            class="text-3xl tracking-tight text-foreground"
+            style="font-family: 'Instrument Serif', serif;"
+          >
+            Velorah<sup class="text-xs">®</sup>
           </a>
 
-          <!-- FULL-RES IMAGE 5: PXL_20250815_124311582.RAW-02.ORIGINAL.dng -->
-          <a href="#collection" data-full="PXL_20250815_124311582.RAW-02.ORIGINAL.dng" data-preview="PXL_20250815_124311582.RAW-02.ORIGINAL.webp" data-title="Raw Study I — Uncompressed Sensor Plate" class="project project-tall featured-plate">
-            <img
-              src="PXL_20250815_124311582.RAW-02.ORIGINAL.dng"
-              onerror="this.onerror=null;this.src='PXL_20250815_124311582.RAW-02.ORIGINAL.webp';"
-              alt="Vertical raw study"
-            />
-            <span class="project-meta"><b>Raw Sensor Study I</b><em>DOWNLOAD .DNG MASTER ↗</em></span>
+          <div class="hidden md:flex items-center gap-8">
+            <a href="#top" class="text-sm text-foreground transition-colors">Home</a>
+            <a href="#studio" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Studio</a>
+            <a href="#about" class="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
+            <a href="#journal" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Journal</a>
+            <a href="#reach-us" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Reach Us</a>
+          </div>
+
+          <a
+            href="#studio"
+            class="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03] cursor-pointer"
+          >
+            Begin Journey
           </a>
+        </nav>
+      </header>
 
-          <!-- FULL-RES IMAGE 6: PXL_20250913_105926161.RAW-02.ORIGINAL (1).dng -->
-          <a href="#collection" data-full="PXL_20250913_105926161.RAW-02.ORIGINAL (1).dng" data-preview="PXL_20250913_105926161.RAW-02.ORIGINAL (1).webp" data-title="Raw Study II — Horizon Negative" class="project project-wide featured-plate">
-            <img
-              src="PXL_20250913_105926161.RAW-02.ORIGINAL (1).dng"
-              onerror="this.onerror=null;this.src='PXL_20250913_105926161.RAW-02.ORIGINAL (1).webp';"
-              alt="Wide raw horizon plate"
-            />
-            <span class="project-meta"><b>Raw Sensor Study II</b><em>DOWNLOAD .DNG MASTER ↗</em></span>
-          </a>
-        </div>
-      </section>
+      <!-- Vertically Centered Hero Section -->
+      <section class="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 pb-40 py-[90px] mx-auto my-auto">
+        <h1
+          class="text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground animate-fade-rise"
+          style="font-family: 'Instrument Serif', serif;"
+        >
+          Where <em class="not-italic text-muted-foreground">dreams</em> rise
+          <em class="not-italic text-muted-foreground">through the silence.</em>
+        </h1>
 
-      <!-- 03: THE VISUAL INDEX (92 UNIQUE WEBP ARCHIVE FRAMES — NO DUPLICATES) -->
-      <section class="collection-section section-pad" id="collection">
-        <div class="section-heading light-heading">
-          <p class="section-label">( 03 — COMPLETE CATALOGUE )</p>
-          <h2>Visual Index<span>.</span></h2>
-          <p>92 additional archive frames organized by study. Select any plate to inspect and open its master file.</p>
-        </div>
+        <p class="text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay">
+          We're designing tools for deep thinkers, bold creators, and quiet rebels. Amid the chaos, we build digital spaces for sharp focus and inspired work.
+        </p>
 
-        <div class="collection-controls" role="tablist" aria-label="Archive categories">
-          <button class="filter-btn active" data-filter="all" type="button">Complete Index (92)</button>
-          <button class="filter-btn" data-filter="portraits" type="button">Human Presence (9)</button>
-          <button class="filter-btn" data-filter="night-motion" type="button">After Dark &amp; Velocity (8)</button>
-          <button class="filter-btn" data-filter="retouch" type="button">Color &amp; Tone Studies (28)</button>
-          <button class="filter-btn" data-filter="raw-frames" type="button">Unfiltered Negatives (22)</button>
-          <button class="filter-btn" data-filter="elsewhere" type="button">Field Notes &amp; Transit (25)</button>
-        </div>
-
-        <div class="archive-grid" id="archive-grid">
-          <!-- HUMAN PRESENCE / PORTRAITS (9) -->
-          <figure class="archive-card" data-category="portraits"><img src="PXL_20250819_050828741.PORTRAIT.webp" loading="lazy" alt="Portrait I" /></figure>
-          <figure class="archive-card" data-category="portraits"><img src="PXL_20260730_123449051.PORTRAIT.ORIGINAL (1).webp" loading="lazy" alt="Portrait II" /></figure>
-          <figure class="archive-card" data-category="portraits"><img src="PXL_20260804_100601289.PORTRAIT (1).webp" loading="lazy" alt="Portrait III" /></figure>
-          <figure class="archive-card" data-category="portraits"><img src="PXL_20260807_113127829.PORTRAIT.ORIGINAL (1).webp" loading="lazy" alt="Portrait IV" /></figure>
-          <figure class="archive-card" data-category="portraits"><img src="PXL_20260826_100451743.PORTRAIT.ORIGINAL.webp" loading="lazy" alt="Portrait V" /></figure>
-          <figure class="archive-card" data-category="portraits"><img src="PXL_20260923_094245489.PORTRAIT (1).webp" loading="lazy" alt="Portrait VI" /></figure>
-          <figure class="archive-card" data-category="portraits"><img src="PXL_20260923_094248973.PORTRAIT (1).webp" loading="lazy" alt="Portrait VII" /></figure>
-          <figure class="archive-card" data-category="portraits"><img src="PXL_20261006_104307962.PORTRAIT.webp" loading="lazy" alt="Portrait VIII" /></figure>
-          <figure class="archive-card" data-category="portraits"><img src="PXL_20261013_111151400.PORTRAIT.ORIGINAL.webp" loading="lazy" alt="Portrait IX" /></figure>
-
-          <!-- AFTER DARK & VELOCITY (8 — StarTrails moved to Featured Studies) -->
-          <figure class="archive-card" data-category="night-motion"><img src="PXL_20250904_125939465.NIGHT.RAW-01.COVER.webp" loading="lazy" alt="Nocturne I" /></figure>
-          <figure class="archive-card" data-category="night-motion"><img src="PXL_20251118_123319224.NIGHT.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Nocturne II" /></figure>
-          <figure class="archive-card" data-category="night-motion"><img src="PXL_20260914_133027207.NIGHT.RAW-02.ORIGINAL.webp" loading="lazy" alt="Nocturne III" /></figure>
-          <figure class="archive-card" data-category="night-motion"><img src="PXL_20261002_191404275.NIGHT (1).webp" loading="lazy" alt="Nocturne IV" /></figure>
-          <figure class="archive-card" data-category="night-motion"><img src="PXL_20260806_120708925.ACTION_PAN-02.ORIGINAL (1).webp" loading="lazy" alt="Velocity I" /></figure>
-          <figure class="archive-card" data-category="night-motion"><img src="PXL_20260831_123258933.ACTION_PAN-01.COVER.webp" loading="lazy" alt="Velocity II" /></figure>
-          <figure class="archive-card" data-category="night-motion"><img src="PXL_20260916_101949829.ACTION_PAN-01.COVER.webp" loading="lazy" alt="Velocity III" /></figure>
-          <figure class="archive-card" data-category="night-motion"><img src="IMG_20251207_002022_533.webp" loading="lazy" alt="Nocturne V" /></figure>
-
-          <!-- COLOR & TONE STUDIES / RETOUCH (28) -->
-          <figure class="archive-card" data-category="retouch"><img src="1370.webp" loading="lazy" alt="Color Study I" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025061216201478.webp" loading="lazy" alt="Color Study II" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025070720580654.webp" loading="lazy" alt="Color Study III" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025070814430454.webp" loading="lazy" alt="Color Study IV" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025070814503842.webp" loading="lazy" alt="Color Study V" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025070814532448.webp" loading="lazy" alt="Color Study VI" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025070815114490.webp" loading="lazy" alt="Color Study VII" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025071804122326.webp" loading="lazy" alt="Color Study VIII" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025080811315320.webp" loading="lazy" alt="Color Study IX" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025090220123497.webp" loading="lazy" alt="Color Study X" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025090420010142.webp" loading="lazy" alt="Color Study XI" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025092623110467.webp" loading="lazy" alt="Color Study XII" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025101914422346.webp" loading="lazy" alt="Color Study XIII" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025121923292344.webp" loading="lazy" alt="Color Study XIV" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025121923330605.webp" loading="lazy" alt="Color Study XV" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025121923354808.webp" loading="lazy" alt="Color Study XVI" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025121923484988.webp" loading="lazy" alt="Color Study XVII" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025121923552922.webp" loading="lazy" alt="Color Study XVIII" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025122000094742.webp" loading="lazy" alt="Color Study XIX" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025122418222272.webp" loading="lazy" alt="Color Study XX" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2025122419074707.webp" loading="lazy" alt="Color Study XXI" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2026021103273205.webp" loading="lazy" alt="Color Study XXII" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2026040804074634.webp" loading="lazy" alt="Color Study XXIII" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2026040805412801.webp" loading="lazy" alt="Color Study XXIV" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2026040805522852.webp" loading="lazy" alt="Color Study XXV" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2026041014355436.webp" loading="lazy" alt="Color Study XXVI" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2026041014421639.webp" loading="lazy" alt="Color Study XXVII" /></figure>
-          <figure class="archive-card" data-category="retouch"><img src="retouch_2026100500483316.webp" loading="lazy" alt="Color Study XXVIII" /></figure>
-
-          <!-- UNFILTERED NEGATIVES / RAW CHRONICLES (22 — 4 promoted to Hero, Film & Featured) -->
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250607_100151713.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Raw Negative I" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250722_121904310.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative II" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250808_110804943.RAW-01.COVER (1).webp" loading="lazy" alt="Raw Negative III" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250809_095845683.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative IV" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250812_115053629.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative V" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250814_114902051.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative VI" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250819_074826056.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative VII" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250828_100441691.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative VIII" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250901_114553015.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative IX" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250902_092756348.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative X" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250902_112645500.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative XI" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250903_114632215.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative XII" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250904_113731750.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative XIII" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250904_113807115.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative XIV" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250904_123750525.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative XV" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250929_080436292.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative XVI" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20250929_080504319.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative XVII" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20251013_104327923.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative XVIII" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20251013_104340295.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Raw Negative XIX" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20251118_103452539.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw Negative XX" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20260916_083331740.RAW-01.COVER.webp" loading="lazy" alt="Raw Negative XXI" /></figure>
-          <figure class="archive-card" data-category="raw-frames"><img src="PXL_20260916_102432299.RAW-01.COVER (1).webp" loading="lazy" alt="Raw Negative XXII" /></figure>
-
-          <!-- FIELD NOTES & TRANSIT / ELSEWHERE (25 — 2 promoted to Quiet Hours) -->
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260921_051255206.RAW-01.COVER.webp" loading="lazy" alt="Field Note I" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20250616_053254478.webp" loading="lazy" alt="Field Note II" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260325_024251656 (1).webp" loading="lazy" alt="Field Note III" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260327_114612754.webp" loading="lazy" alt="Field Note IV" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260418_093549321 (2).webp" loading="lazy" alt="Field Note V" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260802_114240201 (1).webp" loading="lazy" alt="Field Note VI" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260825_124026721.webp" loading="lazy" alt="Field Note VII" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260825_124028945.webp" loading="lazy" alt="Field Note VIII" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260826_093246918.webp" loading="lazy" alt="Field Note IX" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260831_113118100 (1).webp" loading="lazy" alt="Field Note X" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260831_114907325.webp" loading="lazy" alt="Field Note XI" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260831_123327690 (1).webp" loading="lazy" alt="Field Note XII" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260902_125603784 (1) (1).webp" loading="lazy" alt="Field Note XIII" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260902_125649152 (1) (1).webp" loading="lazy" alt="Field Note XIV" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260903_105709100 (1).webp" loading="lazy" alt="Field Note XV" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260907_124852650.webp" loading="lazy" alt="Field Note XVI" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260914_115636624 (1).webp" loading="lazy" alt="Field Note XVII" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260914_120308282 (1) (1).webp" loading="lazy" alt="Field Note XVIII" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260914_120608983 (1).webp" loading="lazy" alt="Field Note XIX" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260914_120732838 (1) (1).webp" loading="lazy" alt="Field Note XX" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260914_120732838 (2).webp" loading="lazy" alt="Field Note XXI" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260914_121602145 (1).webp" loading="lazy" alt="Field Note XXII" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260914_121707938 (1) (1).webp" loading="lazy" alt="Field Note XXIII" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20260915_194802510.webp" loading="lazy" alt="Field Note XXIV" /></figure>
-          <figure class="archive-card" data-category="elsewhere"><img src="PXL_20261006_104450166 (1).webp" loading="lazy" alt="Field Note XXV" /></figure>
-        </div>
-      </section>
-
-      <!-- 04: MOVING IMAGE / FILM (FULL-RES IMAGE 7: PXL_20250707_132048236.RAW-01.COVER.jpg) -->
-      <section class="film" id="films">
-        <div
-          class="film-backdrop"
-          style="background-image: url('PXL_20250707_132048236.RAW-01.COVER.jpg');"
-        ></div>
-        <div class="film-content">
-          <p class="section-label">( 04 — CINEMATOGRAPHY )</p>
-          <p class="film-kicker">Atmosphere, rhythm, and handheld memory.</p>
-          <h2>Motion<br /><i>studies.</i></h2>
-          <button class="play-button" type="button" data-video-title="Reel 2026" aria-label="Play showreel">
-            <span>WATCH<br />FILM</span><b>▶</b>
-          </button>
-        </div>
-        <p class="film-credit">ORIGINAL MOTION PICTURE / 2025–2026</p>
-      </section>
-
-      <!-- 05: CONTACT -->
-      <section class="contact section-pad" id="contact">
-        <p class="section-label">( 05 — COMMISSIONS &amp; COLLABORATIONS )</p>
-        <h2>Have a story<br />worth <i>keeping?</i></h2>
-        <a class="contact-email" href="mailto:hello@mahmudarifin.com">hello@mahmudarifin.com <span>↗</span></a>
-        <div class="footer-row">
-          <p>© <span id="year"></span> MAHMUD ARIFIN</p>
-          <div><a href="#top">INSTAGRAM</a><a href="#top">VIMEO</a></div>
-          <a href="#top">BACK TO TOP ↑</a>
-        </div>
-      </section>
-    </main>
-
-    <!-- WELCOME POPUP ON WEBSITE ENTRY -->
-    <div class="entry-popup-backdrop" id="entry-popup">
-      <div class="entry-popup-card">
-        <p style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.1em;margin:0;">( INTERACTIVE MODE )</p>
-        <h3>Walk the Night Path?</h3>
-        <p>Hold your finger on the screen to guide our companion down the moonlit road and experience the portfolio one frame at a time.</p>
-        <div class="entry-popup-actions">
-          <button class="entry-btn-primary" id="start-walk-from-popup" type="button">✦ ENTER INTERACTIVE WALK</button>
-          <button class="entry-btn-secondary" id="dismiss-entry-popup" type="button">EXPLORE EDITORIAL LAYOUT</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- LIGHTBOX MODAL WITH ORIGINAL QUALITY LINK -->
-    <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image preview">
-      <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close preview">×</button>
-      <img id="lightbox-img" src="" alt="Full preview" />
-      <div class="lightbox-bar">
-        <span id="lightbox-caption"></span>
-        <a id="lightbox-drive-link" class="drive-btn" href="#" target="_blank" rel="noopener noreferrer">
-          OPEN MASTER FILE ↗
+        <a
+          href="#studio"
+          class="liquid-glass rounded-full px-14 py-5 text-base text-foreground mt-12 transition-transform hover:scale-[1.03] cursor-pointer animate-fade-rise-delay-2"
+        >
+          Begin Journey
         </a>
-      </div>
+      </section>
+
+      <div class="relative z-10 h-6"></div>
     </div>
 
-    <!-- QUICK EXPLORE FLOATING BUTTON & WALK MODAL -->
-    <button class="quick-explore-pill" id="open-walk-btn" type="button">
-      <span>✦ NIGHT WALK</span>
-    </button>
-
-    <div class="walk-modal" id="walk-modal" role="dialog" aria-modal="true" aria-label="Interactive portfolio walk">
-      <div class="walk-canvas-wrap">
-        <div class="walk-top-bar">
-          <button class="walk-ui-btn" id="toggle-autowalk-btn" type="button">AUTO-WALK: OFF</button>
-          <button class="walk-ui-btn" id="close-walk-btn" type="button">EXIT ×</button>
+    <!-- ===================================================================== -->
+    <!-- ABOUT / QUIET HOURS SECTION (FEATURED FRAMES)                         -->
+    <!-- ===================================================================== -->
+    <section id="about" class="max-w-7xl mx-auto px-6 sm:px-8 py-28 border-t border-white/10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-16">
+        <div class="lg:col-span-7">
+          <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">01 / Visual Philosophy</p>
+          <h2
+            class="text-4xl sm:text-6xl font-normal tracking-tight text-foreground leading-[1.05]"
+            style="font-family: 'Instrument Serif', serif;"
+          >
+            Frames held <em class="not-italic text-muted-foreground">against time.</em>
+          </h2>
         </div>
-        <canvas id="walk-canvas" width="420" height="740"></canvas>
-        <button class="walk-Inspect-btn" id="walk-inspect-btn" type="button">OPEN MASTER FILE ↗</button>
+        <div class="lg:col-span-5">
+          <p class="text-muted-foreground text-base leading-relaxed">
+            Curated by Mahmud Arifin in Dhaka. Every photograph in this archive is an anchor for the atmosphere that lingers long after the moment has passed.
+          </p>
+        </div>
       </div>
-    </div>
 
-    <dialog class="reel-modal" id="reel-modal">
-      <button class="modal-close" type="button" aria-label="Close showreel">×</button>
-      <div class="modal-placeholder">
-        <span>MOTION ARCHIVE</span>
-        <p>
+      <!-- Featured 3-Column Editorial Showcase -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure
+          class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-black/30 cursor-pointer featured-trigger"
+          data-src="IMG_StarTrails_20251215020948.webp"
+          data-title="Celestial Rotation — Night Exposure"
+        >
+          <img
+            src="IMG_StarTrails_20251215020948.webp"
+            alt="Star trails in the night sky"
+            loading="lazy"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <figcaption class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-between p-6">
+            <div>
+              <p class="text-xs uppercase tracking-widest text-muted-foreground">Study 01</p>
+              <p class="text-2xl text-foreground" style="font-family: 'Instrument Serif', serif;">Celestial Rotation</p>
+            </div>
+            <span class="liquid-glass rounded-full px-4 py-1.5 text-xs">Original ↗</span>
+          </figcaption>
+        </figure>
+
+        <figure
+          class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-black/30 cursor-pointer featured-trigger"
+          data-src="PXL_20260914_121539005 (1).webp"
+          data-title="Quiet Hours — Afternoon Light"
+        >
+          <img
+            src="PXL_20260914_121539005 (1).webp"
+            alt="Afternoon light study"
+            loading="lazy"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <figcaption class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-between p-6">
+            <div>
+              <p class="text-xs uppercase tracking-widest text-muted-foreground">Study 02</p>
+              <p class="text-2xl text-foreground" style="font-family: 'Instrument Serif', serif;">Unscripted Light</p>
+            </div>
+            <span class="liquid-glass rounded-full px-4 py-1.5 text-xs">Original ↗</span>
+          </figcaption>
+        </figure>
+
+        <figure
+          class="group relative overflow-hidden rounded-2xl aspect-[4/5] bg-black/30 cursor-pointer featured-trigger"
+          data-src="PXL_20261006_104155703 (1).webp"
+          data-title="Distant Horizon — Field Study"
+        >
+          <img
+            src="PXL_20261006_104155703 (1).webp"
+            alt="Horizon field study"
+            loading="lazy"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <figcaption class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-between p-6">
+            <div>
+              <p class="text-xs uppercase tracking-widest text-muted-foreground">Study 03</p>
+              <p class="text-2xl text-foreground" style="font-family: 'Instrument Serif', serif;">Still Horizon</p>
+            </div>
+            <span class="liquid-glass rounded-full px-4 py-1.5 text-xs">Original ↗</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- STUDIO / FULL 99-IMAGE VISUAL ARCHIVE                                 -->
+    <!-- ===================================================================== -->
+    <section id="studio" class="max-w-7xl mx-auto px-6 sm:px-8 py-24 border-t border-white/10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+        <div>
+          <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">02 / Studio Catalogue</p>
+          <h2
+            class="text-4xl sm:text-6xl font-normal tracking-tight text-foreground"
+            style="font-family: 'Instrument Serif', serif;"
+          >
+            The Complete <em class="not-italic text-muted-foreground">Collection.</em>
+          </h2>
+        </div>
+        <p class="text-muted-foreground text-sm max-w-md">
+          99 curated plates organized by subject and tone. Select any frame to inspect and open its master high-resolution file on Google Drive.
+        </p>
+      </div>
+
+      <!-- Liquid Glass Category Filter Bar -->
+      <div class="flex flex-wrap gap-3 mb-12" role="tablist" aria-label="Photograph categories">
+        <button class="filter-btn active liquid-glass rounded-full px-5 py-2 text-xs uppercase tracking-wider text-foreground transition-transform hover:scale-[1.03] cursor-pointer" data-filter="all" type="button">
+          All Works (99)
+        </button>
+        <button class="filter-btn liquid-glass rounded-full px-5 py-2 text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground transition-transform hover:scale-[1.03] cursor-pointer" data-filter="portraits" type="button">
+          Portraits (9)
+        </button>
+        <button class="filter-btn liquid-glass rounded-full px-5 py-2 text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground transition-transform hover:scale-[1.03] cursor-pointer" data-filter="night-motion" type="button">
+          Nocturne &amp; Motion (9)
+        </button>
+        <button class="filter-btn liquid-glass rounded-full px-5 py-2 text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground transition-transform hover:scale-[1.03] cursor-pointer" data-filter="retouch" type="button">
+          Fine Retouch (28)
+        </button>
+        <button class="filter-btn liquid-glass rounded-full px-5 py-2 text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground transition-transform hover:scale-[1.03] cursor-pointer" data-filter="raw-frames" type="button">
+          Raw Chronicles (26)
+        </button>
+        <button class="filter-btn liquid-glass rounded-full px-5 py-2 text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground transition-transform hover:scale-[1.03] cursor-pointer" data-filter="elsewhere" type="button">
+          Elsewhere (27)
+        </button>
+      </div>
+
+      <!-- 99 Thumbnail Grid -->
+      <div id="archive-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <!-- PORTRAITS (9) -->
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="portraits"><img src="PXL_20250819_050828741.PORTRAIT.webp" loading="lazy" alt="Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="portraits"><img src="PXL_20260730_123449051.PORTRAIT.ORIGINAL (1).webp" loading="lazy" alt="Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="portraits"><img src="PXL_20260804_100601289.PORTRAIT (1).webp" loading="lazy" alt="Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="portraits"><img src="PXL_20260807_113127829.PORTRAIT.ORIGINAL (1).webp" loading="lazy" alt="Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="portraits"><img src="PXL_20260826_100451743.PORTRAIT.ORIGINAL.webp" loading="lazy" alt="Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="portraits"><img src="PXL_20260923_094245489.PORTRAIT (1).webp" loading="lazy" alt="Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="portraits"><img src="PXL_20260923_094248973.PORTRAIT (1).webp" loading="lazy" alt="Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="portraits"><img src="PXL_20261006_104307962.PORTRAIT.webp" loading="lazy" alt="Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="portraits"><img src="PXL_20261013_111151400.PORTRAIT.ORIGINAL.webp" loading="lazy" alt="Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+
+        <!-- NOCTURNE & MOTION (9) -->
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="night-motion"><img src="IMG_StarTrails_20251215020948.webp" loading="lazy" alt="Nocturne" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="night-motion"><img src="PXL_20250904_125939465.NIGHT.RAW-01.COVER.webp" loading="lazy" alt="Nocturne" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="night-motion"><img src="PXL_20251118_123319224.NIGHT.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Nocturne" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="night-motion"><img src="PXL_20260914_133027207.NIGHT.RAW-02.ORIGINAL.webp" loading="lazy" alt="Nocturne" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="night-motion"><img src="PXL_20261002_191404275.NIGHT (1).webp" loading="lazy" alt="Nocturne" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="night-motion"><img src="PXL_20260806_120708925.ACTION_PAN-02.ORIGINAL (1).webp" loading="lazy" alt="Motion" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="night-motion"><img src="PXL_20260831_123258933.ACTION_PAN-01.COVER.webp" loading="lazy" alt="Motion" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="night-motion"><img src="PXL_20260916_101949829.ACTION_PAN-01.COVER.webp" loading="lazy" alt="Motion" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="night-motion"><img src="IMG_20251207_002022_533.webp" loading="lazy" alt="Nocturne" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+
+        <!-- FINE RETOUCH (28) -->
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="1370.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025061216201478.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025070720580654.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025070814430454.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025070814503842.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025070814532448.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025070815114490.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025071804122326.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025080811315320.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025090220123497.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025090420010142.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025092623110467.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025101914422346.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025121923292344.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025121923330605.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025121923354808.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025121923484988.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025121923552922.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025122000094742.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025122418222272.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2025122419074707.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2026021103273205.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2026040804074634.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2026040805412801.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2026040805522852.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2026041014355436.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2026041014421639.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="retouch"><img src="retouch_2026100500483316.webp" loading="lazy" alt="Retouch" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+
+        <!-- RAW CHRONICLES (26) -->
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250607_100151713.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250707_132048236.RAW-01.COVER.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250722_121904310.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250808_110804943.RAW-01.COVER (1).webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250809_095845683.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250812_115053629.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250814_114902051.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250815_124311582.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250819_074826056.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250828_100441691.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250901_114553015.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250902_092756348.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250902_112645500.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250903_114632215.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250904_113731750.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250904_113807115.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250904_123750525.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250913_105926161.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250929_080436292.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20250929_080504319.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20251013_104327923.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20251013_104340295.RAW-02.ORIGINAL (1).webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20251118_103452539.RAW-02.ORIGINAL.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20251226_012659829.RAW-01.COVER.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20260916_083331740.RAW-01.COVER.webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="raw-frames"><img src="PXL_20260916_102432299.RAW-01.COVER (1).webp" loading="lazy" alt="Raw" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+
+        <!-- ELSEWHERE (27) -->
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260921_051255206.RAW-01.COVER.webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20250616_053254478.webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260325_024251656 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260327_114612754.webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260418_093549321 (2).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260802_114240201 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260825_124026721.webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260825_124028945.webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260826_093246918.webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260831_113118100 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260831_114907325.webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260831_123327690 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260902_125603784 (1) (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260902_125649152 (1) (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260903_105709100 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260907_124852650.webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260914_115636624 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260914_120308282 (1) (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260914_120608983 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260914_120732838 (1) (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260914_120732838 (2).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260914_121539005 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260914_121602145 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260914_121707938 (1) (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20260915_194802510.webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20261006_104155703 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+        <figure class="archive-card group relative overflow-hidden rounded-xl aspect-[4/5] bg-black/25 cursor-pointer border border-white/10" data-category="elsewhere"><img src="PXL_20261006_104450166 (1).webp" loading="lazy" alt="Elsewhere" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></figure>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- JOURNAL / MOTION PICTURE SECTION                                      -->
+    <!-- ===================================================================== -->
+    <section id="journal" class="max-w-7xl mx-auto px-6 sm:px-8 py-24 border-t border-white/10">
+      <div class="relative rounded-3xl overflow-hidden border border-white/15 bg-black/40 p-10 sm:p-20 flex flex-col items-center text-center">
+        <img
+          src="PXL_20250707_132048236.RAW-01.COVER.webp"
+          alt="Motion picture backdrop"
+          loading="lazy"
+          class="absolute inset-0 w-full h-full object-cover opacity-35 z-0"
+        />
+        <div class="relative z-10 max-w-2xl">
+          <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">03 / Moving Image</p>
+          <h2
+            class="text-4xl sm:text-6xl font-normal text-foreground leading-tight"
+            style="font-family: 'Instrument Serif', serif;"
+          >
+            Stories <em class="not-italic text-muted-foreground">in motion.</em>
+          </h2>
+          <p class="text-muted-foreground text-base mt-4 mb-8">
+            Handheld rhythm, ambient light, and visual diaries captured between 2025 and 2026.
+          </p>
           <a
             href="https://drive.google.com/file/d/1tiPD7J6yEDsEDjIloqIQQo4OZkRFRbgT/view?usp=drivesdk"
             target="_blank"
             rel="noopener noreferrer"
-            style="color:#fff;text-decoration:underline;"
+            class="inline-block liquid-glass rounded-full px-10 py-4 text-sm text-foreground transition-transform hover:scale-[1.03]"
           >
-            Stream Original Master Film (PXL_20251106_083856038.mp4) ↗
+            ▶ Watch Showreel on Google Drive
           </a>
-        </p>
+        </div>
       </div>
-    </dialog>
+    </section>
 
-    <script src="script.js"></script>
+    <!-- ===================================================================== -->
+    <!-- REACH US / FOOTER                                                     -->
+    <!-- ===================================================================== -->
+    <footer id="reach-us" class="max-w-7xl mx-auto px-6 sm:px-8 py-24 border-t border-white/10 text-center">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">04 / Reach Us</p>
+      <h2
+        class="text-5xl sm:text-7xl font-normal text-foreground tracking-tight"
+        style="font-family: 'Instrument Serif', serif;"
+      >
+        Have a story <em class="not-italic text-muted-foreground">worth keeping?</em>
+      </h2>
+      <div class="mt-10">
+        <a
+          href="mailto:hello@mahmudarifin.com"
+          class="inline-block liquid-glass rounded-full px-10 py-4 text-base text-foreground transition-transform hover:scale-[1.03]"
+        >
+          hello@mahmudarifin.com ↗
+        </a>
+      </div>
+
+      <div class="mt-20 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+        <p>© <span id="year">2026</span> Velorah® · Mahmud Arifin. Based in Dhaka.</p>
+        <div class="flex items-center gap-6">
+          <a href="#top" class="hover:text-foreground transition-colors">Instagram</a>
+          <a href="#top" class="hover:text-foreground transition-colors">Vimeo</a>
+          <a href="#top" class="hover:text-foreground transition-colors">Back to top ↑</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- LIGHTBOX MODAL WITH GOOGLE DRIVE ORIGINAL QUALITY LINK                -->
+    <!-- ===================================================================== -->
+    <div
+      id="lightbox-modal"
+      class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex-col items-center justify-center p-6"
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        id="lightbox-close"
+        type="button"
+        class="liquid-glass rounded-full w-11 h-11 flex items-center justify-center text-xl text-foreground absolute top-6 right-6 cursor-pointer"
+        aria-label="Close preview"
+      >
+        ×
+      </button>
+      <img
+        id="lightbox-img"
+        src=""
+        alt="Full preview"
+        class="max-w-[90vw] max-h-[75vh] object-contain rounded-lg shadow-2xl"
+      />
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-6">
+        <span id="lightbox-caption" class="text-sm text-muted-foreground"></span>
+        <a
+          id="lightbox-drive-link"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="liquid-glass rounded-full px-7 py-3 text-sm text-foreground transition-transform hover:scale-[1.03]"
+        >
+          View Original Quality (Google Drive) ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- INTERACTIVE NIGHT WALK FLOATING BUTTON & MODAL                        -->
+    <!-- ===================================================================== -->
+    <button
+      id="open-walk-btn"
+      type="button"
+      class="fixed bottom-6 right-6 z-40 liquid-glass rounded-full px-6 py-3 text-xs uppercase tracking-wider text-foreground transition-transform hover:scale-[1.03] cursor-pointer shadow-2xl"
+    >
+      ✦ Interactive Walk
+    </button>
+
+    <div
+      id="walk-modal"
+      class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex-col items-center justify-center p-4 select-none touch-none"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="relative w-[min(420px,94vw)] h-[min(740px,86vh)] border-2 border-white/25 rounded-2xl overflow-hidden bg-white shadow-2xl">
+        <div class="absolute top-3 left-3 right-3 z-10 flex justify-between gap-2 pointer-events-none">
+          <button
+            id="toggle-autowalk-btn"
+            type="button"
+            class="pointer-events-auto bg-black text-white border border-white rounded-full px-3.5 py-1.5 text-xs cursor-pointer"
+          >
+            Auto-Walk: OFF
+          </button>
+          <button
+            id="close-walk-btn"
+            type="button"
+            class="pointer-events-auto bg-black text-white border border-white rounded-full px-3.5 py-1.5 text-xs cursor-pointer"
+          >
+            Exit ×
+          </button>
+        </div>
+        <canvas id="walk-canvas" width="420" height="740" class="w-full h-full block cursor-pointer"></canvas>
+        <button
+          id="walk-inspect-btn"
+          type="button"
+          class=" hidden absolute bottom-16 left-1/2 -translate-x-1/2 z-10 bg-black text-white border border-white rounded-full px-5 py-2 text-xs cursor-pointer shadow-lg"
+        >
+          Open Original Quality ↗
+        </button>
+      </div>
+    </div>
+
     <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+
       // =========================================================================
-      // 1. MASTER FILE RESOLUTION (GITHUB FULL-RES + GOOGLE DRIVE LINKS)
+      // 1. GOOGLE DRIVE ORIGINAL QUALITY LINKS
       // =========================================================================
       const DEFAULT_GOOGLE_DRIVE_FOLDER = "https://drive.google.com/";
 
-      // Direct full-res files uploaded to GitHub + Google Drive master links
       const MASTER_LINKS_BY_BASENAME = {
-        // GitHub Direct Full-Res Uploads
-        "PXL_20250707_132048236.RAW-01.COVER": "PXL_20250707_132048236.RAW-01.COVER.jpg",
-        "IMG_StarTrails_20251215020948": "IMG_StarTrails_20251215020948.png",
-        "PXL_20250815_124311582.RAW-02.ORIGINAL": "PXL_20250815_124311582.RAW-02.ORIGINAL.dng",
-        "PXL_20250913_105926161.RAW-02.ORIGINAL (1)": "PXL_20250913_105926161.RAW-02.ORIGINAL (1).dng",
-        "PXL_20251226_012659829.RAW-01.COVER": "PXL_20251226_012659829.RAW-01.COVER.jpg",
-        "PXL_20260914_121539005 (1)": "PXL_20260914_121539005 (1).jpeg",
-        "PXL_20261006_104155703 (1)": "PXL_20261006_104155703 (1).jpeg",
-
-        // Google Drive Master Links
+        "PXL_20250707_132048236.RAW-01.COVER": "https://drive.google.com/file/d/1wYKR7lu7YL2viqYjYv3e73t3GIGu15aD/view?usp=drivesdk",
+        "IMG_StarTrails_20251215020948": "https://drive.google.com/file/d/16rnOJudiNrEd4l3p9CuybTiAZH6S2ih-/view?usp=drivesdk",
+        "PXL_20251226_012659829.RAW-01.COVER": "https://drive.google.com/file/d/1HHHjVbaH68WQiNBDtkfQD8j8UNLtCclY/view?usp=drivesdk",
+        "PXL_20260914_121539005 (1)": "https://drive.google.com/file/d/1cwBhj50ARgOtyaMKjP3yvu7rzI24Ew3C/view?usp=drivesdk",
+        "PXL_20261006_104155703 (1)": "https://drive.google.com/file/d/10Rc5csXtg4Eqva2t_mZvcyJ9A0GtOAmH/view?usp=drivesdk",
         "retouch_2026100500483316": "https://drive.google.com/file/d/1GIluByyUfcn-2WNVdc99R_oVNe-rr4pw/view?usp=drivesdk",
         "PXL_20261013_111151400.PORTRAIT.ORIGINAL": "https://drive.google.com/file/d/11Tp1jeTNT7aQT6XZhym2upgRVEl4hOnQ/view?usp=drivesdk",
         "PXL_20261006_104450166 (1)": "https://drive.google.com/file/d/1l04vsSvrASfn3HOrDAme7hDT7HPgPA-z/view?usp=drivesdk",
@@ -719,41 +666,37 @@
       };
 
       // =========================================================================
-      // 2. DYNAMIC ARCHIVE NUMBERING, FILTERING & LIGHTBOX
+      // 2. ARCHIVE OVERLAYS, FILTERING & LIGHTBOX
       // =========================================================================
       const CATEGORY_LABELS = {
-        "portraits": "Human Presence",
-        "night-motion": "After Dark & Velocity",
-        "retouch": "Color & Tone",
-        "raw-frames": "Raw Negative",
-        "elsewhere": "Field Note"
+        "portraits": "Portraits",
+        "night-motion": "Nocturne & Motion",
+        "retouch": "Fine Retouch",
+        "raw-frames": "Raw Chronicles",
+        "elsewhere": "Elsewhere"
       };
 
       const filterButtons = document.querySelectorAll('.filter-btn');
       const archiveCards = document.querySelectorAll('.archive-card');
 
-      // Generate unique plate numbers (NO. 01 - NO. 92) without repetitive HTML text
       archiveCards.forEach((card, idx) => {
         const cat = card.dataset.category;
         const plateNum = String(idx + 1).padStart(2, '0');
         const cap = document.createElement('figcaption');
-        cap.className = 'archive-overlay';
-        cap.innerHTML = `<span class="archive-tag">${CATEGORY_LABELS[cat] || 'Archive'}</span><span>PLATE ${plateNum} ↗</span>`;
+        cap.className = 'absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-3.5 text-[11px] text-white';
+        cap.innerHTML = `<span class="bg-white/15 backdrop-blur-sm px-2 py-0.5 rounded">${CATEGORY_LABELS[cat]}</span><span>#${plateNum} ↗</span>`;
         card.appendChild(cap);
       });
 
-      function filterArchive(category) {
-        filterButtons.forEach(btn => {
-          btn.classList.toggle('active', btn.dataset.filter === category);
-        });
-        archiveCards.forEach(card => {
-          const match = category === 'all' || card.dataset.category === category;
-          card.classList.toggle('hidden', !match);
-        });
-      }
-
       filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => filterArchive(btn.dataset.filter));
+        btn.addEventListener('click', () => {
+          const category = btn.dataset.filter;
+          filterButtons.forEach(b => b.classList.toggle('active', b === btn));
+          archiveCards.forEach(card => {
+            const match = category === 'all' || card.dataset.category === category;
+            card.classList.toggle('hidden', !match);
+          });
+        });
       });
 
       const lightboxModal = document.getElementById('lightbox-modal');
@@ -762,57 +705,43 @@
       const lightboxDriveLink = document.getElementById('lightbox-drive-link');
       const lightboxClose = document.getElementById('lightbox-close');
 
-      function openLightbox(displaySrc, masterTarget, customTitle) {
-        const baseKey = displaySrc.replace(/\.[^/.]+$/, '');
-        const resolvedMaster =
-          masterTarget ||
-          MASTER_LINKS_BY_BASENAME[baseKey] ||
-          DEFAULT_GOOGLE_DRIVE_FOLDER;
-
-        lightboxImg.src = encodeURI(displaySrc);
+      function openLightbox(rawFileName, customTitle) {
+        const baseKey = rawFileName.replace(/\.[^/.]+$/, '');
+        const driveUrl = MASTER_LINKS_BY_BASENAME[baseKey] || DEFAULT_GOOGLE_DRIVE_FOLDER;
+        lightboxImg.src = encodeURI(rawFileName);
         lightboxCaption.textContent = customTitle || baseKey;
-        lightboxDriveLink.href = resolvedMaster.startsWith('http') ? resolvedMaster : encodeURI(resolvedMaster);
-        lightboxModal.classList.add('open');
+        lightboxDriveLink.href = driveUrl;
+        lightboxModal.classList.remove('hidden');
+        lightboxModal.classList.add('flex');
+      }
+
+      function closeLightbox() {
+        lightboxModal.classList.add('hidden');
+        lightboxModal.classList.remove('flex');
       }
 
       archiveCards.forEach((card, idx) => {
         card.addEventListener('click', () => {
-          const rawFileName = card.querySelector('img').getAttribute('src');
+          const src = card.querySelector('img').getAttribute('src');
           const cat = CATEGORY_LABELS[card.dataset.category] || 'Archive';
-          openLightbox(rawFileName, '', `${cat} — Plate ${String(idx + 1).padStart(2, '0')}`);
+          openLightbox(src, `${cat} — Plate ${String(idx + 1).padStart(2, '0')}`);
         });
       });
 
-      // Quiet Hours & Featured Studies click-to-inspect
-      document.querySelectorAll('.memory-image').forEach(fig => {
-        fig.style.cursor = 'pointer';
-        fig.addEventListener('click', () => {
-          const fullFile = fig.getAttribute('data-full');
-          openLightbox(fullFile, fullFile, fig.getAttribute('data-title'));
+      document.querySelectorAll('.featured-trigger').forEach(item => {
+        item.addEventListener('click', () => {
+          openLightbox(item.dataset.src, item.dataset.title);
         });
       });
 
-      document.querySelectorAll('.featured-plate').forEach(plate => {
-        plate.addEventListener('click', (e) => {
-          e.preventDefault();
-          const fullFile = plate.getAttribute('data-full');
-          const previewFile = plate.getAttribute('data-preview') || fullFile;
-          openLightbox(previewFile, fullFile, plate.getAttribute('data-title'));
-        });
-      });
-
-      lightboxClose.addEventListener('click', () => lightboxModal.classList.remove('open'));
+      lightboxClose.addEventListener('click', closeLightbox);
       lightboxModal.addEventListener('click', (e) => {
-        if (e.target === lightboxModal) lightboxModal.classList.remove('open');
+        if (e.target === lightboxModal) closeLightbox();
       });
 
       // =========================================================================
       // 3. INTERACTIVE NIGHT WALK ENGINE
       // =========================================================================
-      const entryPopup = document.getElementById('entry-popup');
-      const startWalkFromPopup = document.getElementById('start-walk-from-popup');
-      const dismissEntryPopup = document.getElementById('dismiss-entry-popup');
-
       const walkModal = document.getElementById('walk-modal');
       const openWalkBtn = document.getElementById('open-walk-btn');
       const closeWalkBtn = document.getElementById('close-walk-btn');
@@ -880,7 +809,7 @@
         ctx.stroke();
 
         ctx.fillStyle = '#000';
-        ctx.font = '700 20px Manrope, sans-serif';
+        ctx.font = '700 20px Inter, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(text, x, y + 1);
@@ -965,12 +894,12 @@
         const moving = isHolding || autoWalk;
 
         if (holdCharge < 100 && walkDist === 0) {
-          walkInspectBtn.classList.remove('show');
+          walkInspectBtn.classList.add('hidden');
           ctx.fillStyle = '#fff';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
 
           ctx.fillStyle = '#000';
-          ctx.font = '600 38px Manrope, sans-serif';
+          ctx.font = '600 38px Inter, sans-serif';
           ctx.textAlign = 'center';
           ctx.fillText('put your', 215, 160);
           ctx.fillText('finger', 215, 210);
@@ -1024,7 +953,7 @@
           }
 
           ctx.fillStyle = '#000';
-          ctx.font = '500 13px DM Mono, monospace';
+          ctx.font = '500 12px Inter, sans-serif';
           ctx.textAlign = 'center';
           ctx.fillText('HOLD FINGER ON RING (OR TAP AUTO-WALK)', 210, 680);
 
@@ -1070,7 +999,6 @@
           ctx.lineTo(10, 740);
           ctx.moveTo(172, 196);
           ctx.lineTo(28, 740);
-
           ctx.moveTo(240, 196);
           ctx.lineTo(395, 740);
           ctx.moveTo(248, 196);
@@ -1090,11 +1018,6 @@
             ctx.lineTo(leftGx - 4 * scale, gy - 7 * scale);
             ctx.moveTo(leftGx + 4 * scale, gy);
             ctx.lineTo(leftGx + 4 * scale, gy - 8 * scale);
-            ctx.moveTo(leftGx + 8 * scale, gy);
-            ctx.lineTo(leftGx + 11 * scale, gy - 6 * scale);
-            ctx.stroke();
-
-            ctx.beginPath();
             ctx.moveTo(rightGx, gy);
             ctx.lineTo(rightGx - 3 * scale, gy - 7 * scale);
             ctx.moveTo(rightGx + 4 * scale, gy);
@@ -1130,56 +1053,34 @@
               frameW - 12 * pScale,
               frameH - 26 * pScale
             );
-          } else {
-            ctx.fillStyle = '#eee';
-            ctx.fillRect(frameX + 6 * pScale, frameY + 6 * pScale, frameW - 12 * pScale, frameH - 26 * pScale);
           }
 
           ctx.fillStyle = '#000';
-          ctx.font = `700 ${Math.max(9, Math.round(11 * pScale))}px DM Mono, monospace`;
+          ctx.font = `700 ${Math.max(9, Math.round(11 * pScale))}px Inter, sans-serif`;
           ctx.textAlign = 'center';
-          ctx.fillText(`PLATE #${(currentItem.index + 1)}`, frameX + frameW / 2, frameY + frameH - 7 * pScale);
+          ctx.fillText(`PLATE #${currentItem.index + 1}`, frameX + frameW / 2, frameY + frameH - 7 * pScale);
           ctx.restore();
 
           const isInspectZone = stepProg > 0.62 && stepProg < 0.92;
-
           drawCharacterOnRoad(moving, isInspectZone);
 
           if (isInspectZone) {
             const msg = (currentItem.index + 1) % 5 === 0 ? 'I love u :3' : 'want?';
             drawSpeechBubble(118, 325, msg);
-            walkInspectBtn.classList.add('show');
-            walkInspectBtn.onclick = () => openLightbox(currentItem.src, '', `Plate ${currentItem.index + 1}`);
+            walkInspectBtn.classList.remove('hidden');
+            walkInspectBtn.onclick = () => openLightbox(currentItem.src, `Plate ${currentItem.index + 1}`);
           } else {
-            walkInspectBtn.classList.remove('show');
-          }
-
-          const collectedCount = Math.min(3, photoIdx);
-          for (let c = 0; c < collectedCount; c++) {
-            const pastItem = getWalkImage(photoIdx - 1 - c);
-            const cx = 18 + c * 22;
-            const cy = 590 - c * 14;
-            ctx.save();
-            ctx.rotate((-0.08 + c * 0.06));
-            ctx.fillStyle = '#fff';
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 2.5;
-            ctx.fillRect(cx, cy, 68, 82);
-            ctx.strokeRect(cx, cy, 68, 82);
-            if (pastItem.img.complete && pastItem.img.naturalWidth > 0) {
-              ctx.drawImage(pastItem.img, cx + 4, cy + 4, 60, 66);
-            }
-            ctx.restore();
+            walkInspectBtn.classList.add('hidden');
           }
 
           ctx.fillStyle = 'rgba(255,255,255,0.92)';
           ctx.fillRect(0, 695, canvas.width, 45);
           ctx.fillStyle = '#000';
-          ctx.font = '600 12px DM Mono, monospace';
+          ctx.font = '600 12px Inter, sans-serif';
           ctx.textAlign = 'center';
           ctx.fillText(
             moving
-              ? `WALKING... PLATE ${(currentItem.index + 1)} OF ${photoSources.length}`
+              ? `WALKING... PLATE ${currentItem.index + 1} OF ${photoSources.length}`
               : 'HOLD FINGER ON SCREEN TO WALK FORWARD',
             210,
             722
@@ -1190,29 +1091,25 @@
           }
         }
 
-        if (walkModal.classList.contains('open')) {
+        if (!walkModal.classList.contains('hidden')) {
           animId = requestAnimationFrame(renderLoop);
         }
       }
 
-      function openWalkExperience() {
-        entryPopup.classList.add('hidden');
-        walkModal.classList.add('open');
+      openWalkBtn.addEventListener('click', () => {
+        walkModal.classList.remove('hidden');
+        walkModal.classList.add('flex');
         getWalkImage(0);
         cancelAnimationFrame(animId);
         renderLoop();
-      }
-
-      startWalkFromPopup.addEventListener('click', openWalkExperience);
-      dismissEntryPopup.addEventListener('click', () => entryPopup.classList.add('hidden'));
-      openWalkBtn.addEventListener('click', openWalkExperience);
+      });
 
       closeWalkBtn.addEventListener('click', () => {
-        walkModal.classList.remove('open');
+        walkModal.classList.add('hidden');
+        walkModal.classList.remove('flex');
         isHolding = false;
         autoWalk = false;
-        toggleAutowalkBtn.textContent = 'AUTO-WALK: OFF';
-        toggleAutowalkBtn.classList.remove('active');
+        toggleAutowalkBtn.textContent = 'Auto-Walk: OFF';
         cancelAnimationFrame(animId);
       });
 
@@ -1221,8 +1118,7 @@
         autoWalk = !autoWalk;
         if (autoWalk && holdCharge < 100) holdCharge = 100;
         if (autoWalk && walkDist === 0) walkDist = 1;
-        toggleAutowalkBtn.textContent = autoWalk ? 'AUTO-WALK: ON' : 'AUTO-WALK: OFF';
-        toggleAutowalkBtn.classList.toggle('active', autoWalk);
+        toggleAutowalkBtn.textContent = autoWalk ? 'Auto-Walk: ON' : 'Auto-Walk: OFF';
       });
 
       canvas.addEventListener('pointerdown', (e) => {
