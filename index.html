@@ -164,7 +164,7 @@
     <!-- ===================================================================== -->
     <div id="top" class="relative min-h-screen w-full overflow-hidden flex flex-col justify-between">
       <!-- Custom Motion Background: Plays your own .mp4 if uploaded (hero.mp4), -->
-      <!-- AND runs a live cinematic motion reel of your own photography!        -->
+      <!-- AND runs a live cinematic motion reel of your own photography         -->
       <div class="absolute inset-0 w-full h-full z-0 bg-[#04151f]">
         <img
           src="PXL_20251226_012659829.RAW-01.COVER.webp"
@@ -528,7 +528,7 @@
             rel="noopener noreferrer"
             class="inline-block liquid-glass rounded-full px-10 py-4 text-sm text-foreground transition-transform hover:scale-[1.03]"
           >
-            ▶ Watch Showreel on Google Drive
+            ▶ Watch Showreel (PXL_20251106_083856038.mp4) ↗
           </a>
         </div>
       </div>
@@ -715,20 +715,16 @@
       }, 5000);
 
       // =========================================================================
-      // 1. GOOGLE DRIVE ORIGINAL QUALITY LINKS
+      // 1. ALL 100 GOOGLE DRIVE ORIGINAL QUALITY LINKS (100% MAPPED)
       // =========================================================================
       const DEFAULT_GOOGLE_DRIVE_FOLDER = "https://drive.google.com/";
 
       const MASTER_LINKS_BY_BASENAME = {
-        "PXL_20250707_132048236.RAW-01.COVER": "https://drive.google.com/file/d/1wYKR7lu7YL2viqYjYv3e73t3GIGu15aD/view?usp=drivesdk",
-        "IMG_StarTrails_20251215020948": "https://drive.google.com/file/d/16rnOJudiNrEd4l3p9CuybTiAZH6S2ih-/view?usp=drivesdk",
-        "PXL_20251226_012659829.RAW-01.COVER": "https://drive.google.com/file/d/1HHHjVbaH68WQiNBDtkfQD8j8UNLtCclY/view?usp=drivesdk",
-        "PXL_20260914_121539005 (1)": "https://drive.google.com/file/d/1cwBhj50ARgOtyaMKjP3yvu7rzI24Ew3C/view?usp=drivesdk",
-        "PXL_20261006_104155703 (1)": "https://drive.google.com/file/d/10Rc5csXtg4Eqva2t_mZvcyJ9A0GtOAmH/view?usp=drivesdk",
         "retouch_2026100500483316": "https://drive.google.com/file/d/1GIluByyUfcn-2WNVdc99R_oVNe-rr4pw/view?usp=drivesdk",
         "PXL_20261013_111151400.PORTRAIT.ORIGINAL": "https://drive.google.com/file/d/11Tp1jeTNT7aQT6XZhym2upgRVEl4hOnQ/view?usp=drivesdk",
         "PXL_20261006_104450166 (1)": "https://drive.google.com/file/d/1l04vsSvrASfn3HOrDAme7hDT7HPgPA-z/view?usp=drivesdk",
         "PXL_20261006_104307962.PORTRAIT": "https://drive.google.com/file/d/1et5ej6fYflTpgwcp9FPj26UkD66FVB2w/view?usp=drivesdk",
+        "PXL_20261006_104155703 (1)": "https://drive.google.com/file/d/10Rc5csXtg4Eqva2t_mZvcyJ9A0GtOAmH/view?usp=drivesdk",
         "PXL_20261002_191404275.NIGHT (1)": "https://drive.google.com/file/d/1mwywvH2KklqCfvGmDLxWDEh6eKKiKrqp/view?usp=drivesdk",
         "PXL_20260923_094248973.PORTRAIT (1)": "https://drive.google.com/file/d/1vHkmOyUwiHf6Gx0yhPv9SJ_bmrLePLGo/view?usp=drivesdk",
         "PXL_20260923_094245489.PORTRAIT (1)": "https://drive.google.com/file/d/1YUSeFn_4WEJ10vs-mXh4K8fG8hpy5iIR/view?usp=drivesdk",
@@ -740,6 +736,7 @@
         "PXL_20260914_133027207.NIGHT.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1Q5Q54vE7ahnizZYlnbS2ivtoE2tnWlTs/view?usp=drivesdk",
         "PXL_20260914_121707938 (1) (1)": "https://drive.google.com/file/d/17ZyPZ-suz4thvQsuGuBRdXcLTWxdslar/view?usp=drivesdk",
         "PXL_20260914_121602145 (1)": "https://drive.google.com/file/d/15KRpUmThZJanfCar-EqCyYP8FbAQsju1/view?usp=drivesdk",
+        "PXL_20260914_121539005 (1)": "https://drive.google.com/file/d/1cwBhj50ARgOtyaMKjP3yvu7rzI24Ew3C/view?usp=drivesdk",
         "PXL_20260914_120732838 (2)": "https://drive.google.com/file/d/1crBrYcdr_CAxPK2GjIQfdNNTVjsuhH4g/view?usp=drivesdk",
         "PXL_20260914_120732838 (1) (1)": "https://drive.google.com/file/d/1G7t4eYJ9cytNdP73eGmtQz25p8eF246a/view?usp=drivesdk",
         "PXL_20260914_120608983 (1)": "https://drive.google.com/file/d/1I4U1KSyzasJqhz1LA2CuuqR3rI1JTURD/view?usp=drivesdk",
@@ -772,8 +769,10 @@
         "PXL_20260325_024251656 (1)": "https://drive.google.com/file/d/11lGnNswWQ6Tr9voIIdYfxT5hnGhX5JNC/view?usp=drivesdk",
         "PXL_20251013_104327923.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1I6CzOQwYrtVJjxIZ1Utix-z_jOE60WVD/view?usp=drivesdk",
         "retouch_2026021103273205": "https://drive.google.com/file/d/16Wc6-aPDNFhLlgIP7mcuI-NOTg-Ghk7f/view?usp=drivesdk",
+        "PXL_20251226_012659829.RAW-01.COVER": "https://drive.google.com/file/d/1HHHjVbaH68WQiNBDtkfQD8j8UNLtCclY/view?usp=drivesdk",
         "retouch_2025122419074707": "https://drive.google.com/file/d/1rNETxklsdLBewfPUyKggO1yvqX8EDd7A/view?usp=drivesdk",
         "retouch_2025122418222272": "https://drive.google.com/file/d/1p6XmEuyvjEjLxeeaGNF8pcBeE6WINs-s/view?usp=drivesdk",
+        "PXL_20250707_132048236.RAW-01.COVER": "https://drive.google.com/file/d/1wYKR7lu7YL2viqYjYv3e73t3GIGu15aD/view?usp=drivesdk",
         "retouch_2025122000094742": "https://drive.google.com/file/d/1RNY8S122vK3cTCHH-K6-QNeSzCJR9OvY/view?usp=drivesdk",
         "retouch_2025121923552922": "https://drive.google.com/file/d/1109xlWT44k7i-jOUKocVzY7Pa9_WEyN4/view?usp=drivesdk",
         "retouch_2025121923484988": "https://drive.google.com/file/d/1fEYy931aGIY9qQOF9KbV9kckM-QAwktL/view?usp=drivesdk",
@@ -782,9 +781,45 @@
         "retouch_2025121923292344": "https://drive.google.com/file/d/1Ervzll-M35WyDD1AAsTyt3UgAA9Rusn1/view?usp=drivesdk",
         "retouch_2025061216201478": "https://drive.google.com/file/d/1yPCKQDj3uOoegwRX6-aMGqXlhYBZ5AlD/view?usp=drivesdk",
         "PXL_20250607_100151713.RAW-02.ORIGINAL (1)": "https://drive.google.com/file/d/1JqXRSLPCbsesPdvMUt_HU1YaWS4hu__S/view?usp=drivesdk",
+        "IMG_StarTrails_20251215020948": "https://drive.google.com/file/d/16rnOJudiNrEd4l3p9CuybTiAZH6S2ih-/view?usp=drivesdk",
         "IMG_20251207_002022_533": "https://drive.google.com/file/d/1dFImiqE9xJsRIvq7HXdX13WYeH0AhEX0/view?usp=drivesdk",
         "PXL_20251118_103452539.RAW-02.ORIGINAL": "https://drive.google.com/file/d/10jBDK5JbUggJyTBMYBQgmT-BzbWJCap6/view?usp=drivesdk",
-        "PXL_20251118_123319224.NIGHT.RAW-02.ORIGINAL (1)": "https://drive.google.com/file/d/1Sd3-C1_8B7uA58_xcbzim4W5OuDzELze/view?usp=drivesdk"
+        "PXL_20251118_123319224.NIGHT.RAW-02.ORIGINAL (1)": "https://drive.google.com/file/d/1Sd3-C1_8B7uA58_xcbzim4W5OuDzELze/view?usp=drivesdk",
+        "PXL_20251106_083856038": "https://drive.google.com/file/d/1tiPD7J6yEDsEDjIloqIQQo4OZkRFRbgT/view?usp=drivesdk",
+        "retouch_2025101914422346": "https://drive.google.com/file/d/1heeDSMfnn3oM3mJlNeOnGebb0FY5nQRL/view?usp=drivesdk",
+        "PXL_20251013_104340295.RAW-02.ORIGINAL (1)": "https://drive.google.com/file/d/1ozG-vNa38Wwa2tTnNAmK7eY8u4-vDkzP/view?usp=drivesdk",
+        "PXL_20250929_080436292.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1DtXbt8W0Di-UMMlP87H8QddpfkAFdW8T/view?usp=drivesdk",
+        "PXL_20250929_080504319.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1PCxEvMy29rOUy44TJkDAciED8b-mZ-GO/view?usp=drivesdk",
+        "retouch_2025092623110467": "https://drive.google.com/file/d/1ik0Hww6B1X4Z9xnXum2nTyY1Am6Gg64I/view?usp=drivesdk",
+        "PXL_20250913_105926161.RAW-02.ORIGINAL (1)": "https://drive.google.com/file/d/1UF-QYmnmKqbm-_rqaL3z2QRO28N-So-2/view?usp=drivesdk",
+        "PXL_20250819_074826056.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1DDHIwGR8oiwyoN2k9JujEFT_CicHHsEU/view?usp=drivesdk",
+        "PXL_20250901_114553015.RAW-02.ORIGINAL": "https://drive.google.com/file/d/171MPh6tyChl2Y0sTdgORz5DNMTWsGAY4/view?usp=drivesdk",
+        "PXL_20250903_114632215.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1N3fnxWEkcO_g48OnrmU4O7yA5VdDpewA/view?usp=drivesdk",
+        "PXL_20250902_092756348.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1JW-OO_0jaf1haP-2CRD70Ua1VxksWZPq/view?usp=drivesdk",
+        "PXL_20250902_112645500.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1LG3NlkFMPU6kS6pA3oSIEwcaBlnxqVuQ/view?usp=drivesdk",
+        "PXL_20250904_113731750.RAW-02.ORIGINAL": "https://drive.google.com/file/d/15QcZrjTrbUfhC81Hk0bqcJVxDyF4sdqp/view?usp=drivesdk",
+        "PXL_20250904_113807115.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1afMtLxuf2GDyGkNkmEUzLuCDtNPRLuN_/view?usp=drivesdk",
+        "retouch_2025090420010142": "https://drive.google.com/file/d/10U4Hr8_wFk8xDJEFr69P5SA0Jj9PN1Ui/view?usp=drivesdk",
+        "PXL_20250904_123750525.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1mIqKFLSLPdT4SV4PNMk6c7YEScVhaQDK/view?usp=drivesdk",
+        "PXL_20250904_125939465.NIGHT.RAW-01.COVER": "https://drive.google.com/file/d/1KvO9EDHTbIs1l_CsG-X2SGJNIw0fmIO-/view?usp=drivesdk",
+        "retouch_2025090220123497": "https://drive.google.com/file/d/1GlYP9JeH3stBmAXv2MQoC5mPM6WgLmBH/view?usp=drivesdk",
+        "PXL_20250828_100441691.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1k7WddrVqajIUPFDqUU_NXaLTqUfGzyRN/view?usp=drivesdk",
+        "PXL_20250819_050828741.PORTRAIT": "https://drive.google.com/file/d/1X3lKkfIXu7IWzjOI9MkWzzqhmDux3kHf/view?usp=drivesdk",
+        "PXL_20250815_124311582.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1G_SgF5GHFY0ow14J-fYJvGkCyb660OZU/view?usp=drivesdk",
+        "PXL_20250814_114902051.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1MceRRoOo0GXzvQLeUfNb_1ZGfxs3lzsR/view?usp=drivesdk",
+        "PXL_20250812_115053629.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1rf9BZIrySaELuE5VTnjyTSnSS2lzQilF/view?usp=drivesdk",
+        "PXL_20250616_053254478": "https://drive.google.com/file/d/1UBbQcaq65XTikZbgqKFPNgn3HNDh9fOC/view?usp=drivesdk",
+        "PXL_20250809_095845683.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1l6rMHtjS_CosdJxIhFwIPgyID8xQGRGp/view?usp=drivesdk",
+        "PXL_20250808_110804943.RAW-01.COVER (1)": "https://drive.google.com/file/d/1J2dODARUinvIGxjnc_2WoocyodQ1z9q1/view?usp=drivesdk",
+        "retouch_2025080811315320": "https://drive.google.com/file/d/1DkY0KUHHeAMMuG9Wztgh94kSkLMGo88z/view?usp=drivesdk",
+        "1370": "https://drive.google.com/file/d/1ARww4NAXQN9kGs8BLOpYef-0xWv4DyUP/view?usp=drivesdk",
+        "PXL_20250722_121904310.RAW-02.ORIGINAL": "https://drive.google.com/file/d/1JC_d5RLbwBbEhzlQ_me1KspjH2H69v6-/view?usp=drivesdk",
+        "retouch_2025071804122326": "https://drive.google.com/file/d/1tOAh1M4LTZkUZbeUgabjFzbssk6Lx1F2/view?usp=drivesdk",
+        "retouch_2025070815114490": "https://drive.google.com/file/d/1cpx4WZXuBkl3mDcgCiNUu-2vTadidv6k/view?usp=drivesdk",
+        "retouch_2025070814532448": "https://drive.google.com/file/d/1-dc2uuwsGYowEGlfBOeUAC_HwC7QPNu7/view?usp=drivesdk",
+        "retouch_2025070814503842": "https://drive.google.com/file/d/1mqbOGb995rKZffG1WWY-6ZMRJytu_1Og/view?usp=drivesdk",
+        "retouch_2025070814430454": "https://drive.google.com/file/d/1Pun03Mjw2n6yhH4C_pmCFz644KW_fNfv/view?usp=drivesdk",
+        "retouch_2025070720580654": "https://drive.google.com/file/d/1eBHgnmd3zEremBw_qjhlsg1OJI7OvPGo/view?usp=drivesdk"
       };
 
       // =========================================================================
@@ -895,7 +930,6 @@
       pCtx.fill();
       const halftonePattern = ctx.createPattern(patternCanvas, 'repeat');
 
-      // Determine visitor's local time of day for Pixel's custom greeting
       function configurePixelTimeGreeting() {
         const hour = new Date().getHours();
         let badge = '';
@@ -943,7 +977,6 @@
         const waveAngle = Math.sin(greetTick * 2.2) * 0.35;
 
         gCtx.save();
-        // Ground shadow
         gCtx.fillStyle = '#000';
         gCtx.beginPath();
         gCtx.ellipse(95, 176, 36, 6, 0, 0, Math.PI * 2);
@@ -953,19 +986,16 @@
         gCtx.strokeStyle = '#000';
         gCtx.lineWidth = 3;
 
-        // Body
         gCtx.beginPath();
         gCtx.roundRect(68, 118 + bob, 54, 52, 18);
         gCtx.fill();
         gCtx.stroke();
 
-        // Left resting arm
         gCtx.beginPath();
         gCtx.roundRect(48, 128 + bob, 24, 14, 7);
         gCtx.fill();
         gCtx.stroke();
 
-        // Right waving arm
         gCtx.save();
         gCtx.translate(120, 130 + bob);
         gCtx.rotate(-0.45 + waveAngle);
@@ -979,13 +1009,11 @@
         gCtx.stroke();
         gCtx.restore();
 
-        // Head
         gCtx.beginPath();
         gCtx.arc(95, 76 + bob, 46, 0, Math.PI * 2);
         gCtx.fill();
         gCtx.stroke();
 
-        // Pixel's two vertical block eyes
         gCtx.fillStyle = '#000';
         gCtx.save();
         gCtx.translate(98, 76 + bob);
@@ -994,7 +1022,6 @@
         gCtx.fillRect(6, -16, 9, 28);
         gCtx.restore();
 
-        // Speech bubble ("morning!", "hey! :3", etc.)
         gCtx.fillStyle = '#fff';
         gCtx.strokeStyle = '#000';
         gCtx.lineWidth = 2.5;
