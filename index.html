@@ -201,9 +201,9 @@
         </video>
       </div>
 
-      <!-- Navigation Bar (Mahmud Arifin / MA•AR Branding) -->
-      <header class="w-full relative z-10">
-        <nav class="relative z-10 flex flex-row items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+      <!-- Navigation Bar (Mahmud Arifin / MA•AR Branding + Mobile Drawer) -->
+      <header class="w-full relative z-20">
+        <nav class="relative z-10 flex flex-row items-center justify-between px-6 sm:px-8 py-6 max-w-7xl mx-auto">
           <a
             href="#top"
             class="text-3xl tracking-tight text-foreground"
@@ -220,14 +220,43 @@
             <a href="#reach-us" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</a>
           </div>
 
-          <button
-            id="nav-pixel-btn"
-            type="button"
-            class="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03] cursor-pointer"
-          >
-            ✦ Walk with Pixel
-          </button>
+          <div class="flex items-center gap-3">
+            <button
+              id="nav-pixel-btn"
+              type="button"
+              class="liquid-glass rounded-full px-4 sm:px-6 py-2.5 text-xs sm:text-sm text-foreground transition-transform hover:scale-[1.03] cursor-pointer"
+            >
+              ✦ Walk with Pixel
+            </button>
+
+            <!-- Mobile Hamburger Button -->
+            <button
+              id="mobile-menu-btn"
+              type="button"
+              class="md:hidden liquid-glass rounded-full w-10 h-10 flex items-center justify-center text-foreground transition-transform hover:scale-[1.03] cursor-pointer"
+              aria-label="Toggle navigation menu"
+              aria-expanded="false"
+            >
+              <svg id="menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+              <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </nav>
+
+        <!-- Collapsible Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 max-w-7xl mx-auto">
+          <div class="liquid-glass rounded-2xl bg-[#04151f]/90 backdrop-blur-xl p-6 flex flex-col gap-4 shadow-2xl">
+            <a href="#top" class="mobile-nav-link text-base text-foreground hover:text-muted-foreground transition-colors py-1 border-b border-white/10">Home</a>
+            <a href="#studio" class="mobile-nav-link text-base text-muted-foreground hover:text-foreground transition-colors py-1 border-b border-white/10">Collection (99)</a>
+            <a href="#about" class="mobile-nav-link text-base text-muted-foreground hover:text-foreground transition-colors py-1 border-b border-white/10">Philosophy</a>
+            <a href="#journal" class="mobile-nav-link text-base text-muted-foreground hover:text-foreground transition-colors py-1 border-b border-white/10">Films</a>
+            <a href="#reach-us" class="mobile-nav-link text-base text-muted-foreground hover:text-foreground transition-colors py-1">Contact</a>
+          </div>
+        </div>
       </header>
 
       <!-- Vertically Centered Hero Section -->
@@ -569,7 +598,7 @@
     <!-- ===================================================================== -->
     <div
       id="pixel-greeting-modal"
-      class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+      class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-label="Greeting from Pixel"
@@ -704,7 +733,7 @@
       document.getElementById('year').textContent = new Date().getFullYear();
 
       // =========================================================================
-      // 0. HERO CINEMA SLIDESHOW LOOP (YOUR OWN PHOTOGRAPHY)
+      // 0. HERO CINEMA SLIDESHOW LOOP & MOBILE NAVIGATION DRAWER
       // =========================================================================
       const heroSlides = document.querySelectorAll('.cinema-slide');
       let currentHeroSlide = 0;
@@ -713,6 +742,36 @@
         currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
         heroSlides[currentHeroSlide].classList.add('active');
       }, 5000);
+
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIconOpen = document.getElementById('menu-icon-open');
+      const menuIconClose = document.getElementById('menu-icon-close');
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+      function closeMobileMenu() {
+        if (!mobileMenu) return;
+        mobileMenu.classList.add('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        menuIconOpen.classList.remove('hidden');
+        menuIconClose.classList.add('hidden');
+      }
+
+      mobileMenuBtn.addEventListener('click', () => {
+        const isOpen = !mobileMenu.classList.contains('hidden');
+        if (isOpen) {
+          closeMobileMenu();
+        } else {
+          mobileMenu.classList.remove('hidden');
+          mobileMenuBtn.setAttribute('aria-expanded', 'true');
+          menuIconOpen.classList.add('hidden');
+          menuIconClose.classList.remove('hidden');
+        }
+      });
+
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+      });
 
       // =========================================================================
       // 1. ALL 100 GOOGLE DRIVE ORIGINAL QUALITY LINKS (100% MAPPED)
@@ -897,8 +956,9 @@
       });
 
       // =========================================================================
-      // 3. "PIXEL" TIME-BASED GREETING ON WEBSITE ENTRY + NIGHT WALK ENGINE
+      // 3. "PIXEL" TIME-BASED GREETING (WITH SESSIONSTORAGE PERSISTENCE)
       // =========================================================================
+      const PIXEL_GREETING_STORAGE_KEY = 'maar_pixel_greeting_seen';
       const pixelGreetingModal = document.getElementById('pixel-greeting-modal');
       const pixelGreetCanvas = document.getElementById('pixel-greet-canvas');
       const gCtx = pixelGreetCanvas.getContext('2d');
@@ -916,6 +976,22 @@
       const walkInspectBtn = document.getElementById('walk-inspect-btn');
       const canvas = document.getElementById('walk-canvas');
       const ctx = canvas.getContext('2d');
+
+      function hasSeenPixelGreeting() {
+        try {
+          return sessionStorage.getItem(PIXEL_GREETING_STORAGE_KEY) === 'true';
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function markPixelGreetingSeen() {
+        try {
+          sessionStorage.setItem(PIXEL_GREETING_STORAGE_KEY, 'true');
+        } catch (e) {
+          // Ignore storage errors in restricted browsing modes
+        }
+      }
 
       // Halftone dot pattern shared by Pixel in both the greeting and the walk
       const patternCanvas = document.createElement('canvas');
@@ -1041,12 +1117,20 @@
         }
       }
 
-      animateGreetingPixel();
-
-      dismissPixelBtn.addEventListener('click', () => {
+      function hidePixelGreetingModal() {
+        markPixelGreetingSeen();
         pixelGreetingModal.classList.add('hidden');
+        pixelGreetingModal.classList.remove('flex');
         cancelAnimationFrame(greetAnimId);
-      });
+      }
+
+      if (!hasSeenPixelGreeting()) {
+        pixelGreetingModal.classList.remove('hidden');
+        pixelGreetingModal.classList.add('flex');
+        animateGreetingPixel();
+      }
+
+      dismissPixelBtn.addEventListener('click', hidePixelGreetingModal);
 
       // =========================================================================
       // 4. INTERACTIVE NIGHT WALK ENGINE
@@ -1386,8 +1470,8 @@
       }
 
       function launchPixelWalk() {
-        pixelGreetingModal.classList.add('hidden');
-        cancelAnimationFrame(greetAnimId);
+        closeMobileMenu();
+        hidePixelGreetingModal();
         walkModal.classList.remove('hidden');
         walkModal.classList.add('flex');
         getWalkImage(0);
