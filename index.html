@@ -222,6 +222,21 @@
           class="cinema-slide"
         />
 
+        <!-- Defer the large hero video until the page is ready; the image slideshow appears first. -->
+        <video
+          id="custom-hero-video"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="none"
+          poster="PXL_20251226_012659829.RAW-01.COVER.webp"
+          class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700"
+          onloadeddata="this.classList.remove('opacity-0')"
+        >
+          <source data-src="hero.mp4" type="video/mp4" />
+        </video>
+
       </div>
 
       <!-- Navigation Bar (Mahmud Arifin / MA•AR Branding + Mobile Drawer) -->
@@ -312,6 +327,29 @@
 
       <div class="relative z-10 h-6"></div>
     </div>
+
+    <!-- ===================================================================== -->
+    <!-- PERSONAL PROFILE                                                     -->
+    <!-- ===================================================================== -->
+    <section id="profile" class="max-w-7xl mx-auto px-6 sm:px-8 py-12">
+      <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center sm:items-start gap-6 rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+        <div class="w-36 h-36 sm:w-44 sm:h-44 shrink-0 overflow-hidden rounded-2xl bg-white/5">
+          <img src="MI.jpg" alt="Portrait of Mahmud Arifin (Tanjil)" width="176" height="176" loading="lazy" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+        </div>
+        <div class="w-full">
+          <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">About me</p>
+          <h2 class="text-3xl sm:text-4xl font-normal text-foreground" style="font-family: 'Instrument Serif', serif;">Mahmud Arifin (Tanjil)</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed mt-3">I’m Mahmud Arifin (Tanjil), a photographer and videographer from Dhanbari, Tangail. I’m curious about technology and enjoy watching the sky and preserving everyday moments.</p>
+          <dl class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm">
+            <div><dt class="text-muted-foreground">Address</dt><dd class="text-foreground mt-0.5">Dhanbari, Tangail, Dhaka</dd></div>
+            <div><dt class="text-muted-foreground">Birth year</dt><dd class="text-foreground mt-0.5">2008</dd></div>
+            <div><dt class="text-muted-foreground">Relationship status</dt><dd class="text-foreground mt-0.5">Single</dd></div>
+            <div><dt class="text-muted-foreground">Education</dt><dd class="text-foreground mt-0.5">Keramjani High School; Notre Dame College Mymensingh</dd></div>
+            <div class="sm:col-span-2"><dt class="text-muted-foreground">Hobbies</dt><dd class="text-foreground mt-0.5">Learning about new technologies, watching the sky, capturing moments, reading detective novels, and playing open-world video games.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
 
     <!-- ===================================================================== -->
     <!-- ABOUT / QUIET HOURS SECTION (FEATURED FRAMES)                         -->
@@ -1541,6 +1579,24 @@
       });
       window.addEventListener('pointerup', () => { isHolding = false; });
       window.addEventListener('pointercancel', () => { isHolding = false; });
+    </script>
+  
+    <script>
+      (() => {
+        const video = document.getElementById('custom-hero-video');
+        const source = video && video.querySelector('source[data-src]');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const saveData = navigator.connection && navigator.connection.saveData;
+        if (!video || !source || reducedMotion || saveData) return;
+
+        window.addEventListener('load', () => {
+          window.setTimeout(() => {
+            source.src = source.dataset.src;
+            video.load();
+            video.play().catch(() => {});
+          }, 700);
+        }, { once: true });
+      })();
     </script>
   </body>
 </html>
