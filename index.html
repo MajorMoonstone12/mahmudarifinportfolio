@@ -6,6 +6,7 @@
     <meta name="description" content="Explore the photography and films of Mahmud Arifin, a Dhaka-based photographer and videographer creating visual stories for audiences worldwide." />
     <meta name="author" content="Mahmud Arifin" />
     <meta name="theme-color" content="#003a50" />
+    <link rel="icon" type="image/png" href="/favicon-transparent.png" />
     <title>Mahmud Arifin | Photographer &amp; Videographer in Dhaka</title>
 
     <!-- Social sharing previews -->
@@ -134,6 +135,17 @@
       }
 
       /* Entry & Hero Animations */
+      @keyframes pixel-side-in {
+        from { opacity: 0; transform: translateX(18px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      .pixel-side-greeting:not(.hidden) {
+        animation: pixel-side-in 0.35s ease-out both;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .pixel-side-greeting:not(.hidden) { animation: none; }
+      }
+
       @keyframes fade-rise {
         from {
           opacity: 0;
@@ -339,14 +351,24 @@
         <div class="w-full">
           <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">About me</p>
           <h2 class="text-3xl sm:text-4xl font-normal text-foreground" style="font-family: 'Instrument Serif', serif;">Mahmud Arifin (Tanjil)</h2>
-          <p class="text-muted-foreground text-sm leading-relaxed mt-3">I’m Mahmud Arifin (Tanjil), a photographer and videographer from Dhanbari, Tangail. I’m curious about technology and enjoy watching the sky and preserving everyday moments.</p>
+          <p class="text-muted-foreground text-sm leading-relaxed mt-3">I’m Mahmud Arifin (Tanjil), a student from Dhanbari, Tangail who loves photography and visual storytelling. I’m curious about new technology and find inspiration in the sky and the small moments of everyday life.</p>
           <dl class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm">
             <div><dt class="text-muted-foreground">Address</dt><dd class="text-foreground mt-0.5">Dhanbari, Tangail, Dhaka</dd></div>
             <div><dt class="text-muted-foreground">Birth year</dt><dd class="text-foreground mt-0.5">2008</dd></div>
             <div><dt class="text-muted-foreground">Relationship status</dt><dd class="text-foreground mt-0.5">Single</dd></div>
             <div><dt class="text-muted-foreground">Education</dt><dd class="text-foreground mt-0.5">Keramjani High School; Notre Dame College Mymensingh</dd></div>
-            <div class="sm:col-span-2"><dt class="text-muted-foreground">Hobbies</dt><dd class="text-foreground mt-0.5">Learning about new technologies, watching the sky, capturing moments, reading detective novels, and playing open-world video games.</dd></div>
+            <div class="sm:col-span-2"><dt class="text-muted-foreground">Hobbies</dt><dd class="text-foreground mt-0.5">Exploring new technology, sky-watching, photography, detective novels, and open-world games.</dd></div>
           </dl>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="https://www.instagram.com/majormoonstone/" target="_blank" rel="noopener noreferrer" aria-label="Visit Instagram profile @majormoonstone" class="inline-flex items-center gap-2.5 rounded-full border border-white/20 px-5 py-3 text-sm text-foreground transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
+              <span aria-hidden="true" class="text-lg leading-none">◎</span>
+              <span><span class="font-medium">Instagram</span><span class="ml-2 text-muted-foreground">@majormoonstone ↗</span></span>
+            </a>
+            <a href="https://wa.me/majormoonstone" target="_blank" rel="noopener noreferrer" aria-label="Message @majormoonstone on WhatsApp" class="inline-flex items-center gap-2.5 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-5 py-3 text-sm text-foreground transition-colors hover:bg-emerald-400/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70">
+              <span aria-hidden="true" class="text-lg leading-none">◉</span>
+              <span><span class="font-medium">WhatsApp</span><span class="ml-2 text-muted-foreground">@majormoonstone ↗</span></span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -666,59 +688,37 @@
       </div>
     </footer>
 
-    <!-- ===================================================================== -->
-    <!-- "PIXEL" TIME-BASED GREETING MODAL ON WEBSITE ENTRY                    -->
-    <!-- ===================================================================== -->
-    <div
+    <!-- Pixel stays docked at the screen edge; its greeting never covers the page. -->
+    <aside
       id="pixel-greeting-modal"
-      class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Greeting from Pixel"
+      class="fixed right-4 bottom-24 sm:bottom-6 z-40 flex items-end gap-2.5"
+      aria-label="Pixel gallery guide"
     >
-      <div class="bg-white text-black max-w-md w-full rounded-3xl border-4 border-black p-6 sm:p-8 text-center shadow-2xl relative overflow-hidden">
-        <!-- Live Animated Canvas of "Pixel" Waving -->
-        <div class="mx-auto w-44 h-40 mb-2">
-          <canvas id="pixel-greet-canvas" width="220" height="190" class="w-full h-full block"></canvas>
+      <div
+        id="pixel-greeting-card"
+        class="pixel-side-greeting hidden w-[min(18rem,calc(100vw-6.75rem))] rounded-2xl border border-slate-200 bg-white p-4 text-left text-slate-900 shadow-2xl"
+      >
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <span id="pixel-time-badge" class="text-[10px] font-semibold uppercase tracking-[0.18em] text-teal-700">GALLERY GUIDE</span>
+            <h3 id="pixel-greeting-title" class="mt-1 text-xl leading-tight" style="font-family: 'Instrument Serif', serif;">Hi, I’m Pixel.</h3>
+          </div>
+          <button id="dismiss-pixel-btn" type="button" aria-label="Close Pixel greeting" class="-mr-1 -mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xl text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900">×</button>
         </div>
-
-        <span
-          id="pixel-time-badge"
-          class="inline-block bg-black text-white text-[11px] font-semibold uppercase tracking-widest px-3.5 py-1 rounded-full mb-3"
-        >
-          HELLO THERE
-        </span>
-
-        <h3
-          id="pixel-greeting-title"
-          class="text-3xl sm:text-4xl font-normal text-black leading-tight"
-          style="font-family: 'Instrument Serif', serif;"
-        >
-          Hi! I'm Pixel.
-        </h3>
-
-        <p id="pixel-greeting-text" class="text-sm text-neutral-700 mt-3 leading-relaxed">
-          I'm Mahmud Arifin's little gallery companion. Want to hold your finger on the screen and walk through all 99 photographs with me?
-        </p>
-
-        <div class="mt-6 flex flex-col gap-2.5">
-          <button
-            id="start-walk-from-pixel"
-            type="button"
-            class="w-full bg-black text-white rounded-full py-3.5 px-6 text-xs font-semibold uppercase tracking-wider hover:scale-[1.02] transition-transform cursor-pointer"
-          >
-            ✦ Walk With Pixel (Interactive)
-          </button>
-          <button
-            id="dismiss-pixel-btn"
-            type="button"
-            class="w-full bg-neutral-100 text-neutral-700 border border-neutral-300 rounded-full py-3 px-6 text-xs font-medium uppercase tracking-wider hover:bg-neutral-200 transition-colors cursor-pointer"
-          >
-            Explore Standard Website
-          </button>
-        </div>
+        <p id="pixel-greeting-text" class="mt-2 text-xs leading-relaxed text-slate-600">Welcome! I can guide you through Mahmud’s photographs whenever you like.</p>
+        <button id="start-walk-from-pixel" type="button" class="mt-3 rounded-full bg-[#003a50] px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-white transition-colors hover:bg-[#07536b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">Take a gallery walk ↗</button>
       </div>
-    </div>
+      <button
+        id="pixel-avatar-toggle"
+        type="button"
+        aria-label="Open Pixel’s greeting"
+        aria-controls="pixel-greeting-card"
+        aria-expanded="false"
+        class="h-[68px] w-[68px] shrink-0 overflow-hidden rounded-full border border-white/80 bg-white shadow-xl transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200"
+      >
+        <canvas id="pixel-greet-canvas" width="220" height="190" aria-hidden="true" class="block h-full w-full"></canvas>
+      </button>
+    </aside>
 
     <!-- ===================================================================== -->
     <!-- LIGHTBOX MODAL WITH GOOGLE DRIVE ORIGINAL QUALITY LINK                -->
@@ -758,16 +758,8 @@
     </div>
 
     <!-- ===================================================================== -->
-    <!-- FLOATING PIXEL BUTTON & INTERACTIVE NIGHT WALK MODAL                  -->
+    <!-- INTERACTIVE NIGHT WALK MODAL                                           -->
     <!-- ===================================================================== -->
-    <button
-      id="open-walk-btn"
-      type="button"
-      class="fixed bottom-6 right-6 z-40 liquid-glass rounded-full px-6 py-3 text-xs uppercase tracking-wider text-foreground transition-transform hover:scale-[1.03] cursor-pointer shadow-2xl"
-    >
-      ✦ Walk with Pixel
-    </button>
-
     <div
       id="walk-modal"
       class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex-col items-center justify-center p-4 select-none touch-none"
@@ -1031,8 +1023,9 @@
       // =========================================================================
       // 3. "PIXEL" TIME-BASED GREETING (WITH SESSIONSTORAGE PERSISTENCE)
       // =========================================================================
-      const PIXEL_GREETING_STORAGE_KEY = 'maar_pixel_greeting_seen';
-      const pixelGreetingModal = document.getElementById('pixel-greeting-modal');
+      const PIXEL_GREETING_STORAGE_KEY = 'maar_pixel_side_greeting_seen';
+      const pixelGreetingCard = document.getElementById('pixel-greeting-card');
+      const pixelAvatarToggle = document.getElementById('pixel-avatar-toggle');
       const pixelGreetCanvas = document.getElementById('pixel-greet-canvas');
       const gCtx = pixelGreetCanvas.getContext('2d');
       const pixelTimeBadge = document.getElementById('pixel-time-badge');
@@ -1043,7 +1036,6 @@
       const navPixelBtn = document.getElementById('nav-pixel-btn');
 
       const walkModal = document.getElementById('walk-modal');
-      const openWalkBtn = document.getElementById('open-walk-btn');
       const closeWalkBtn = document.getElementById('close-walk-btn');
       const toggleAutowalkBtn = document.getElementById('toggle-autowalk-btn');
       const walkInspectBtn = document.getElementById('walk-inspect-btn');
@@ -1080,38 +1072,10 @@
       const halftonePattern = ctx.createPattern(patternCanvas, 'repeat');
 
       function configurePixelTimeGreeting() {
-        const hour = new Date().getHours();
-        let badge = '';
-        let title = '';
-        let message = '';
-        let bubbleWord = 'hi! :3';
-
-        if (hour >= 5 && hour < 12) {
-          badge = '☀ GOOD MORNING';
-          title = "Morning! I'm Pixel.";
-          message = "Good morning! I'm Pixel, Mahmud Arifin's gallery guide. Grab your morning coffee and hold your finger on the screen to walk through 99 visual stories with me!";
-          bubbleWord = 'morning!';
-        } else if (hour >= 12 && hour < 17) {
-          badge = '🌤 GOOD AFTERNOON';
-          title = "Hey there! I'm Pixel.";
-          message = "Good afternoon! I'm Pixel, your little guide through Mahmud's visual archive. Want to take a quick interactive walk together or browse the collection?";
-          bubbleWord = 'hey! :3';
-        } else if (hour >= 17 && hour < 21) {
-          badge = '🌆 GOOD EVENING';
-          title = "Evening! I'm Pixel.";
-          message = "Good evening! Golden hour is the best time for photography. I'm Pixel—press below if you'd like me to walk you down the starry road through all 99 frames!";
-          bubbleWord = 'evening!';
-        } else {
-          badge = '🌙 LATE NIGHT OWL';
-          title = "Night Owl! I'm Pixel.";
-          message = "The moon is out! I'm Pixel, Mahmud's night-walk companion. Keep your finger on the screen and let's walk down the starry path through his 99 photographs.";
-          bubbleWord = 'awake? :3';
-        }
-
-        pixelTimeBadge.textContent = badge;
-        pixelGreetingTitle.textContent = title;
-        pixelGreetingText.textContent = message;
-        return bubbleWord;
+        pixelTimeBadge.textContent = 'GALLERY GUIDE';
+        pixelGreetingTitle.textContent = 'Hi, I’m Pixel.';
+        pixelGreetingText.textContent = 'Welcome! I can guide you through Mahmud’s photographs whenever you like.';
+        return 'hello!';
       }
 
       const greetingBubbleWord = configurePixelTimeGreeting();
@@ -1185,24 +1149,40 @@
         gCtx.fillText(greetingBubbleWord, 173, 35);
         gCtx.restore();
 
-        if (!pixelGreetingModal.classList.contains('hidden')) {
+        if (!pixelGreetingCard.classList.contains('hidden') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           greetAnimId = requestAnimationFrame(animateGreetingPixel);
+        } else {
+          greetAnimId = null;
         }
+      }
+
+      let pixelGreetingTimer = null;
+      function showPixelGreeting(autoDismiss = false) {
+        pixelGreetingCard.classList.remove('hidden');
+        pixelAvatarToggle.setAttribute('aria-expanded', 'true');
+        if (greetAnimId === null && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          animateGreetingPixel();
+        }
+        if (pixelGreetingTimer) clearTimeout(pixelGreetingTimer);
+        pixelGreetingTimer = autoDismiss ? setTimeout(hidePixelGreetingModal, 7000) : null;
       }
 
       function hidePixelGreetingModal() {
         markPixelGreetingSeen();
-        pixelGreetingModal.classList.add('hidden');
-        pixelGreetingModal.classList.remove('flex');
-        cancelAnimationFrame(greetAnimId);
+        pixelGreetingCard.classList.add('hidden');
+        pixelAvatarToggle.setAttribute('aria-expanded', 'false');
+        if (pixelGreetingTimer) clearTimeout(pixelGreetingTimer);
+        pixelGreetingTimer = null;
+        if (greetAnimId !== null) cancelAnimationFrame(greetAnimId);
+        greetAnimId = null;
       }
 
-      if (!hasSeenPixelGreeting()) {
-        pixelGreetingModal.classList.remove('hidden');
-        pixelGreetingModal.classList.add('flex');
-        animateGreetingPixel();
-      }
+      if (!hasSeenPixelGreeting()) showPixelGreeting(true);
 
+      pixelAvatarToggle.addEventListener('click', () => {
+        if (pixelGreetingCard.classList.contains('hidden')) showPixelGreeting(false);
+        else hidePixelGreetingModal();
+      });
       dismissPixelBtn.addEventListener('click', hidePixelGreetingModal);
 
       // =========================================================================
@@ -1553,7 +1533,6 @@
       }
 
       startWalkFromPixel.addEventListener('click', launchPixelWalk);
-      openWalkBtn.addEventListener('click', launchPixelWalk);
       navPixelBtn.addEventListener('click', launchPixelWalk);
 
       closeWalkBtn.addEventListener('click', () => {
